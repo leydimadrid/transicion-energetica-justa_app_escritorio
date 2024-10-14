@@ -4,6 +4,7 @@
  */
 package Controllers;
 
+import Serivices.EnergiaRenovableService;
 import utils.intefaces.IEnergiaRenovableService;
 
 /**
@@ -12,10 +13,15 @@ import utils.intefaces.IEnergiaRenovableService;
  */
 public class EnergiaRenovableController  {
     
-   private final IEnergiaRenovableService _energiaRenovableService;
+    public  EnergiaRenovableService _energiaRenovableService;
    
-    public EnergiaRenovableController(IEnergiaRenovableService energiaRenovableService){
-       this._energiaRenovableService = energiaRenovableService;
+    public EnergiaRenovableController( EnergiaRenovableService energiaRenovableService){
+        this._energiaRenovableService = energiaRenovableService;
+ 
+    }
+ public EnergiaRenovableController( ){
+       
+ 
     }
 
   
@@ -27,8 +33,17 @@ public class EnergiaRenovableController  {
 
  
     public String obtenerPorcentajeConsumoElectricoTotalRegion(String tipoEnergia, String anio) {
+     
         String porcentajeConsumoElectricoTotalRegion = _energiaRenovableService.obtenerPorcentajeConsumoElectricoTotalRegion(tipoEnergia, anio);
         return porcentajeConsumoElectricoTotalRegion;
+
     } 
+    
+       // Método para iniciar sesión
+    public boolean iniciarSesion(String email, String contrasenia) {
+        
+        boolean porcentajeConsumoElectricoTotalRegion = _energiaRenovableService.iniciarSesion(email, contrasenia);
+        return porcentajeConsumoElectricoTotalRegion;
+      }
     
 }
