@@ -4,28 +4,45 @@
  */
 package Serivices;
 
+import Repository.EnergiaRenovableRepository;
 import utils.intefaces.IEnergiaRenovableRepository;
 
 /**
  *
  * @author MI PC
  */
-public class EnergiaRenovableService implements IEnergiaRenovableRepository{
-        private final IEnergiaRenovableRepository _energiaRenovableRepository;
-
-    public EnergiaRenovableService(IEnergiaRenovableRepository energiaRenovableRepository){
-        this._energiaRenovableRepository = energiaRenovableRepository;
+public class EnergiaRenovableService {
+      
+    public EnergiaRenovableRepository  _energiaRenovableRepository;
+    
+    public EnergiaRenovableService( EnergiaRenovableRepository  energiaRenovableRepository){
+       this._energiaRenovableRepository = energiaRenovableRepository;
     }
 
-    @Override
+
+    public EnergiaRenovableService(){
+ 
+    }
+
+
     public String obtenerProduccionTotalEnergia(String fuente, String anio) {
       String produccionTotalEnergia = _energiaRenovableRepository.obtenerProduccionTotalEnergia(fuente, anio);
         return produccionTotalEnergia;
     }
 
-@Override
+
     public String obtenerPorcentajeConsumoElectricoTotalRegion(String fuente, String anio) {
+        
         String porcentajeConsumoElectricoTotalRegion = _energiaRenovableRepository.obtenerPorcentajeConsumoElectricoTotalRegion(fuente, anio);
         return porcentajeConsumoElectricoTotalRegion;
+
     }
+    
+        
+       // Método para iniciar sesión
+    public boolean iniciarSesion(String email, String contrasenia) {
+        
+        boolean inicioSesion = _energiaRenovableRepository.iniciarSesion(email,contrasenia);
+        return inicioSesion;
+      }
 }
