@@ -1,112 +1,39 @@
 package Model;
 
-import Utils.Intefaces.IEnergiaRenovable;
+import Utils.Interfaces.*;
 
-public abstract class EnergiaRenovable implements IEnergiaRenovable {
 
-    public int id;
-    public Localizacion localizacion;
-    public String nombre;
-    public int ano;
-    public double produccionAnual;
-    public double consumoAnual;
-    public double capacidadInstalada;
-    public boolean compartida;
-    public double eficiencia;
+public class EnergiaRenovable implements IEnergiaRenovable {
+    public String nombreFuente;
 
     public EnergiaRenovable() {
+
     }
 
-    public EnergiaRenovable(int id, Localizacion localizacion, String nombre, int ano, double produccionAnual, double consumoAnual, double capacidadInstalada, boolean compartida, double eficiencia) {
-        this.id = id;
-        this.localizacion = localizacion;
-        this.nombre = nombre;
-        this.ano = ano;
-        this.produccionAnual = produccionAnual;
-        this.consumoAnual = consumoAnual;
-        this.capacidadInstalada = capacidadInstalada;
-        this.compartida = compartida;
-        this.eficiencia = eficiencia;
+    public EnergiaRenovable(String nombreFuente) {
+        this.nombreFuente = nombreFuente;
     }
 
-    public int getId() {
-        return id;
+    public String getNombreFuente() {
+        return nombreFuente;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNombreFuente(String nombreFuente) {
+        this.nombreFuente = nombreFuente;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Localizacion getLocalizacion() {
-        return localizacion;
-    }
-
-    public void setLocalizacion(Localizacion localizacion) {
-        this.localizacion = localizacion;
-    }
-
-    public int getAno() {
-        return ano;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
-    }
-
-    public double getProduccionAnual() {
-        return produccionAnual;
-    }
-
-    public void setProduccionAnual(double produccionAnual) {
-        this.produccionAnual = produccionAnual;
-    }
-
-    public double getConsumoAnual() {
-        return consumoAnual;
-    }
-
-    public void setConsumoAnual(double consumoAnual) {
-        this.consumoAnual = consumoAnual;
-    }
-
-    public double getCapacidadInstalada() {
-        return capacidadInstalada;
-    }
-
-    public void setCapacidadInstalada(double capacidadInstalada) {
-        this.capacidadInstalada = capacidadInstalada;
-    }
-
-    public boolean isCompartida() {
-        return compartida;
-    }
-
-    public void setCompartida(boolean compartida) {
-        this.compartida = compartida;
-    }
-
-    public double getEficiencia() {
-        return eficiencia;
-    }
-
-    public void setEficiencia(double eficiencia) {
-        this.eficiencia = eficiencia;
-    }
-
-    public static String mostrarInformacion() {
-        return "";
+    public double calcularCapacidadProduccionNominal() {
+        return 0.0d;
     }
 
 
-    public abstract double calcularProduccion();
+    @Override
+    public double calcularProduccion() {
+        return 0;
+    }
 
-    public abstract double calcularConsumo();
+    @Override
+    public double calcularConsumo() {
+        return 0;
+    }
 }
