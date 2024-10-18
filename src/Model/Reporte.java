@@ -1,12 +1,12 @@
-
 package Model;
+
 import java.time.LocalDate;
 import java.util.List;
 
 public class Reporte {
     private int id;
     private String tipoEnergia;
-    private Localizacion localizacion;
+    private Pais pais;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
 
@@ -14,10 +14,10 @@ public class Reporte {
     public Reporte() {
     }
 
-    public Reporte(int id,  String tipoEnergia, Localizacion localizacion, LocalDate fechaInicio, LocalDate fechaFin) {
+    public Reporte(int id, String tipoEnergia, Pais pais, LocalDate fechaInicio, LocalDate fechaFin) {
         this.id = id;
         this.tipoEnergia = tipoEnergia;
-        this.localizacion = localizacion;
+        this.pais = pais;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
     }
@@ -30,12 +30,12 @@ public class Reporte {
         this.id = id;
     }
 
-    public Localizacion getLocalizacion() {
-        return localizacion;
+    public Pais getLocalizacion() {
+        return pais;
     }
 
-    public void setLocalizacion(Localizacion localizacion) {
-        this.localizacion = localizacion;
+    public void setLocalizacion(Pais pais) {
+        this.pais = pais;
     }
 
     public LocalDate getFechaInicio() {
@@ -66,17 +66,6 @@ public class Reporte {
         StringBuilder reporte = new StringBuilder();
         reporte.append("\nINFORME DE ENERGÍAS RENOVABLES\n");
         reporte.append("================================\n\n");
-        for (EnergiaRenovable energia : energiasRenovables) {
-            reporte.append("Tipo de Energía: ").append(energia.getNombre()).append("\n");
-            reporte.append("Año: ").append(energia.getAno()).append("\n");
-            reporte.append("Producción Anual: ").append(energia.getProduccionAnual()).append("\n");
-            reporte.append("Consumo Anual: ").append(energia.getConsumoAnual()).append("\n");
-            reporte.append("Capacidad Instalada: ").append(energia.getCapacidadInstalada()).append("\n");
-            reporte.append("Compartida: ").append(energia.isCompartida()).append("\n");
-            reporte.append("Eficiencia: ").append(energia.getEficiencia()).append("\n");
-            reporte.append("Localización: ").append(energia.getLocalizacion().getNombre()).append("\n");
-            reporte.append("--------------------------------\n");
-        }
 
         return reporte.toString();
     }
@@ -86,7 +75,7 @@ public class Reporte {
     public String toString() {
         return "Reporte{" +
                 "id=" + id +
-                ", localizacion='" + localizacion + '\'' +
+                ", pais='" + pais + '\'' +
                 ", fechaInicio=" + fechaInicio +
                 ", fechaFin=" + fechaFin +
                 ", tipoEnergia='" + tipoEnergia + '\'' +

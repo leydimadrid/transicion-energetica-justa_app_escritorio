@@ -8,18 +8,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
-/**
- *
- * @author MI PC
- */
 public class ConexionSql {
-    
-     private final String url = "jdbc:postgresql://localhost:5432/transicionEnergeticaJusta";  
+
+    private final String url = "jdbc:postgresql://localhost:5432/transicionEnergeticaJusta";
     private final String usuario = "postgres"; // Corrige el nombre del usuario a "postgres" si estaba mal escrito.
     private final String contrasenia = "123456789";
-    
-    // Método para establecer la conexión
+
+    // Metodo para establecer la conexión
     public Connection conectar() {
         Connection conn = null;
         try {
@@ -36,8 +31,8 @@ public class ConexionSql {
         }
         return conn; // Retornamos el objeto Connection
     }
-    
-    // Método para cerrar la conexión
+
+    //Metodo para cerrar la conexión
     public void cerrarConexion(Connection conn) {
         try {
             if (conn != null && !conn.isClosed()) {
@@ -47,5 +42,5 @@ public class ConexionSql {
             e.printStackTrace();
         }
     }
-        
+
 }

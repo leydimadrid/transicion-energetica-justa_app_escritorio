@@ -1,23 +1,35 @@
 package Model;
+
 public class EnergiaEolica extends EnergiaRenovable {
-    private double numeroTurbinas;
+    private double capacidadRotor;
+    private int cantidadRotores;
     private double velocidadViento;
+
 
     public EnergiaEolica() {
     }
 
-    public EnergiaEolica(int id, Localizacion localizacion, String nombre, int ano, double produccionAnual, double consumoAnual, double capacidadInstalada, boolean compartida, double eficiencia, double numeroTurbinas, double velocidadViento) {
-        super(id, localizacion, nombre, ano, produccionAnual, consumoAnual, capacidadInstalada, compartida, eficiencia);
-        this.numeroTurbinas = numeroTurbinas;
+    public EnergiaEolica(String nombreFuente, double capacidadRotor, int cantidadRotores, double velocidadViento) {
+        super(nombreFuente);
+        this.capacidadRotor = capacidadRotor;
+        this.cantidadRotores = cantidadRotores;
         this.velocidadViento = velocidadViento;
     }
 
-    public double getNumeroTurbinas() {
-        return numeroTurbinas;
+    public double getCapacidadRotor() {
+        return capacidadRotor;
     }
 
-    public void setNumeroTurbinas(double numeroTurbinas) {
-        this.numeroTurbinas = numeroTurbinas;
+    public void setCapacidadRotor(double capacidadRotor) {
+        this.capacidadRotor = capacidadRotor;
+    }
+
+    public int getCantidadRotores() {
+        return cantidadRotores;
+    }
+
+    public void setCantidadRotores(int cantidadRotores) {
+        this.cantidadRotores = cantidadRotores;
     }
 
     public double getVelocidadViento() {
@@ -29,29 +41,12 @@ public class EnergiaEolica extends EnergiaRenovable {
     }
 
     @Override
-    public double calcularProduccion() {
-        return numeroTurbinas * velocidadViento * 365;
-    }
-
-    @Override
-    public double calcularConsumo() {
-        return numeroTurbinas * velocidadViento * 0.8 * 365;
-    }
-
-    @Override
     public String toString() {
         return "EnergiaEolica{" +
-                "velocidadViento=" + velocidadViento +
-                ", id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", ano=" + ano +
-                ", produccionAnual=" + produccionAnual +
-                ", consumoAnual=" + consumoAnual +
-                ", capacidadInstalada=" + capacidadInstalada +
-                ", compartida=" + compartida +
-                ", eficiencia=" + eficiencia +
-                ", numeroTurbinas=" + numeroTurbinas +
+                "capacidadRotor=" + capacidadRotor +
+                ", cantidadRotores=" + cantidadRotores +
+                ", velocidadViento=" + velocidadViento +
+                ", nombreFuente='" + nombreFuente + '\'' +
                 '}';
     }
-
 }

@@ -1,18 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author MI PC
- */
 public class Usuario {
-    long id;
-    String nombre;
-    String email;
-    String contrasenia;
+    private long id;
+    private String nombre;
+    private String email;
+    private String contrasenia;
+    private String perfil;
 
     public long getId() {
         return id;
@@ -45,6 +38,12 @@ public class Usuario {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
-    
-    
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
+    }
 }
