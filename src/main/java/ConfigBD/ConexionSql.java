@@ -10,18 +10,18 @@ import java.sql.SQLException;
 
 public class ConexionSql {
 
-    private final String url = "jdbc:postgresql://localhost:5432/transicionEnergeticaJusta";
-    private final String usuario = "postgres"; // Corrige el nombre del usuario a "postgres" si estaba mal escrito.
-    private final String contrasenia = "123456789";
+    //private final String url = "jdbc:postgresql://localhost:5432/transicionenergeticajusta";
+    //private final String usuario = "postgres"; // Corrige el nombre del usuario a "postgres" si estaba mal escrito.
+    //private final String contrasenia = "S270322";
 
     // Metodo para establecer la conexión
-    public Connection conectar() {
+    public static Connection conectar() {
         Connection conn = null;
         try {
             // Cargamos el driver de PostgreSQL
             Class.forName("org.postgresql.Driver");
             // Establecemos la conexión
-            conn = DriverManager.getConnection(url, usuario, contrasenia);
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/transicionenergeticajusta", "postgres", "S270322" );
         } catch (ClassNotFoundException e) {
             System.out.println("Error: No se encuentra el driver de PostgreSQL");
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class ConexionSql {
     }
 
     //Metodo para cerrar la conexión
-    public void cerrarConexion(Connection conn) {
+    public static void cerrarConexion(Connection conn) {
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();

@@ -2,20 +2,20 @@ package Model;
 
 public class Usuario {
 
-   
+
     private long id;
     private String nombre;
     private String email;
     private String contrasenia;
     private String rol;
-    
-     public Usuario(int id, String nombre, String email, String rol) {
-         this.id = id;
-         this.nombre = nombre;
-         this.contrasenia = contrasenia;
-         this.email = email; 
-         this.rol = rol ;
-        
+
+    public Usuario(int id, String nombre, String email, String rol) {
+        this.id = id;
+        this.nombre = nombre;
+        this.contrasenia = contrasenia;
+        this.email = email;
+        this.rol = rol ;
+
     }
 
     public long getId() {

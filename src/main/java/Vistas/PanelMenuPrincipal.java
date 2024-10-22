@@ -5,22 +5,28 @@
 package Vistas;
 
 import Controllers.EnergiaRenovableController;
+import Controllers.UsuarioController;
 import Model.Usuario;
 import Repository.EnergiaRenovableRepository;
+import Repository.UsuarioRepository;
 import Services.EnergiaRenovableService;
+import Services.UsuarioService;
+
 import java.awt.Font;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
  * @author MI PC
  */
 public class PanelMenuPrincipal extends javax.swing.JFrame {
-
+    private UsuarioController usuarioController;
+    private UsuarioService usuarioService;
     private DefaultTableModel tableModel;
 
     /**
@@ -28,81 +34,69 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
      */
     public PanelMenuPrincipal() {
         initComponents();
+        usuarioService = new UsuarioService();
         inicializarTabla();
-         this.setVisible(true);
-         setLocationRelativeTo(null);
-          this.setResizable(false); 
-     
-     
-            jTableUsuarios.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 16));
+        
+        usuarioController = new UsuarioController();
+        
+        this.setVisible(true);
+        setLocationRelativeTo(null);
+        this.setResizable(false);
 
-            jTableUsuarios.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
 
-          jLabelNombre.setFont(new Font(jLabelNombre.getFont().getName(), Font.PLAIN, 16));
-          jLabelContrasenia.setFont(new Font(jLabelContrasenia.getFont().getName(), Font.PLAIN, 16));
-          jLabelEmail.setFont(new Font(jLabelEmail.getFont().getName(), Font.PLAIN, 16));
-          jLabelRol.setFont(new Font(jLabelRol.getFont().getName(), Font.PLAIN, 16));
-          
-          jTabbedEnergias.setFont(new Font(jTabbedEnergias.getFont().getName(), Font.PLAIN, 16));
-          jTableUsuarios.setFont(new Font(jTableUsuarios.getFont().getName(), Font.PLAIN, 16));
-          
-          jButtonGuardar.setFont(new Font(jButtonGuardar.getFont().getName(), Font.PLAIN, 16));
-          jButtonBuscar.setFont(new Font(jButtonBuscar.getFont().getName(), Font.PLAIN, 16));
-          jButtonEliminar.setFont(new Font(jButtonEliminar.getFont().getName(), Font.PLAIN, 16));
-          jButtonModificar.setFont(new Font(jButtonModificar.getFont().getName(), Font.PLAIN, 16));
-          
+        jTableUsuarios.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 16));
+
+        jTableUsuarios.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
+
+        jLabelNombre.setFont(new Font(jLabelNombre.getFont().getName(), Font.PLAIN, 16));
+        jLabelContrasenia.setFont(new Font(jLabelContrasenia.getFont().getName(), Font.PLAIN, 16));
+        jLabelEmail.setFont(new Font(jLabelEmail.getFont().getName(), Font.PLAIN, 16));
+        jLabelRol.setFont(new Font(jLabelRol.getFont().getName(), Font.PLAIN, 16));
+
+        jTabbedEnergias.setFont(new Font(jTabbedEnergias.getFont().getName(), Font.PLAIN, 16));
+        jTableUsuarios.setFont(new Font(jTableUsuarios.getFont().getName(), Font.PLAIN, 16));
+
+        jButtonGuardar.setFont(new Font(jButtonGuardar.getFont().getName(), Font.PLAIN, 16));
+        jButtonBuscar.setFont(new Font(jButtonBuscar.getFont().getName(), Font.PLAIN, 16));
+        jButtonEliminar.setFont(new Font(jButtonEliminar.getFont().getName(), Font.PLAIN, 16));
+        jButtonModificar.setFont(new Font(jButtonModificar.getFont().getName(), Font.PLAIN, 16));
+
 
     }
-     private void inicializarTabla() {
-        tableModel = (DefaultTableModel) jTableUsuarios.getModel(); 
-        
-    jTableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(50); 
-    jTableUsuarios.getColumnModel().getColumn(1).setPreferredWidth(150); 
-    jTableUsuarios.getColumnModel().getColumn(2).setPreferredWidth(200); 
-    jTableUsuarios.getColumnModel().getColumn(3).setPreferredWidth(100); 
 
-   /*
-    tableModel.addRow(new Object[]{1, "Juan Pérez", "juan.perez@example.com", "Admin"});
-    tableModel.addRow(new Object[]{2, "Ana Gómez", "ana.gomez@example.com", "Usuario"});
-    tableModel.addRow(new Object[]{3, "Luis Martínez", "luis.martinez@example.com", "Moderador"});
-    tableModel.addRow(new Object[]{4, "María López", "maria.lopez@example.com", "Usuario"});
-    tableModel.addRow(new Object[]{5, "Carlos Fernández", "carlos.fernandez@example.com", "Admin"});
-    tableModel.addRow(new Object[]{6, "Sofía Torres", "sofia.torres@example.com", "Moderador"});
-    tableModel.addRow(new Object[]{7, "Javier Ruiz", "javier.ruiz@example.com", "Usuario"});
-    tableModel.addRow(new Object[]{8, "Laura González", "laura.gonzalez@example.com", "Admin"});
-    tableModel.addRow(new Object[]{9, "Pablo Ramírez", "pablo.ramirez@example.com", "Moderador"});
-    tableModel.addRow(new Object[]{10, "Isabel Martínez", "isabel.martinez@example.com", "Usuario"});
-    tableModel.addRow(new Object[]{11, "Diego Romero", "diego.romero@example.com", "Usuario"});
-    tableModel.addRow(new Object[]{12, "Claudia Castro", "claudia.castro@example.com", "Admin"});
-    tableModel.addRow(new Object[]{13, "Fernando Salazar", "fernando.salazar@example.com", "Moderador"});
-    tableModel.addRow(new Object[]{14, "Elena Rojas", "elena.rojas@example.com", "Usuario"});
-    tableModel.addRow(new Object[]{15, "Martín Aguirre", "martin.aguirre@example.com", "Admin"});
-    tableModel.addRow(new Object[]{16, "Valeria Peña", "valeria.pena@example.com", "Moderador"});
-    tableModel.addRow(new Object[]{17, "Rodrigo Silva", "rodrigo.silva@example.com", "Usuario"});
-    tableModel.addRow(new Object[]{18, "Gabriela Vargas", "gabriela.vargas@example.com", "Admin"});
-    tableModel.addRow(new Object[]{19, "Mateo Paredes", "mateo.paredes@example.com", "Moderador"});
-    tableModel.addRow(new Object[]{20, "Natalia Cordero", "natalia.cordero@example.com", "Usuario"});
-    
-    */
-    
+    private void inicializarTabla() {
+        tableModel = (DefaultTableModel) jTableUsuarios.getModel();
+
+        jTableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTableUsuarios.getColumnModel().getColumn(1).setPreferredWidth(150);
+        jTableUsuarios.getColumnModel().getColumn(2).setPreferredWidth(200);
+        jTableUsuarios.getColumnModel().getColumn(3).setPreferredWidth(100);
+        
+
         EnergiaRenovableRepository energiaRepository = new EnergiaRenovableRepository();
 
         EnergiaRenovableService energiaService = new EnergiaRenovableService(energiaRepository);
 
-        EnergiaRenovableController controller = new EnergiaRenovableController(energiaService);
+        EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaService);
+        
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
+        
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
 
-        List<Usuario> listUsuarios = controller.obtenerUsuarios();
+        UsuarioController usuarioController = new UsuarioController(usuarioService);
 
-        tableModel.setRowCount(0); 
+        List<Usuario> listUsuarios = usuarioController.obtenerUsuarios();
+
+        tableModel.setRowCount(0);
         for (Usuario usuario : listUsuarios) {
             tableModel.addRow(new Object[]{
-                usuario.getId(),
-                usuario.getNombre(),
-                usuario.getEmail(),
-                usuario.getRol()
+                    usuario.getId(),
+                    usuario.getNombre(),
+                    usuario.getEmail(),
+                    usuario.getRol()
             });
         }
-        
+
     }
 
 
@@ -152,6 +146,16 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);
 
         jButtonGuardar.setText("Guardar");
+        jButtonGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonGuardarMouseClicked(evt);
+            }
+        });
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
 
         jButtonBuscar.setText("Buscar");
         jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -315,6 +319,37 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextEmailActionPerformed
 
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+       
+agregar();
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jButtonGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGuardarMouseClicked
+        agregar();
+    }//GEN-LAST:event_jButtonGuardarMouseClicked
+
+    private void agregar() {
+    String nombre = jTextNombreUsuario.getText().trim();
+    String email = jTextEmail.getText().trim();
+    String contrasenia = jTextContrasenia.getText().trim();
+    String rol = jTextRol.getText().trim();
+
+    // Input validation
+    if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || rol.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Create a new Usuario object
+    Usuario usuario = new Usuario(0, nombre, email, contrasenia); // Use the rol field
+
+    try {
+        usuarioService.agregarUsuario(usuario);
+        JOptionPane.showMessageDialog(this, "Registro agregado");
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error adding user: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -325,7 +360,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             }
         });
     }
- 
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBuscar;

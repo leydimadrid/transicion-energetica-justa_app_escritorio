@@ -1,8 +1,7 @@
 package Controllers;
 
-import Model.Usuario;
 import Services.EnergiaRenovableService;
-import java.util.List;
+
 
 public class EnergiaRenovableController {
 
@@ -29,20 +28,4 @@ public class EnergiaRenovableController {
         return porcentajeConsumoElectricoTotalRegion;
 
     }
-    
-    public List<Usuario>  obtenerUsuarios() {
-
-        List<Usuario>  usuarios = _energiaRenovableService.obtenerUsuarios();
-        return usuarios;
-
-    }
-
-
-    // Metodo para iniciar sesión
-    public boolean iniciarSesion(String email, String contrasenia) {
-
-        boolean porcentajeConsumoElectricoTotalRegion = _energiaRenovableService.iniciarSesion(email, contrasenia);
-        return porcentajeConsumoElectricoTotalRegion;
-    }
-
 }

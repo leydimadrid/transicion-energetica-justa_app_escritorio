@@ -16,10 +16,6 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class ConsultaUno extends javax.swing.JFrame {
-
-    /**
-     * Creates new form ConsultaUno
-     */
     public ConsultaUno() {
         initComponents();
         this.setVisible(true);
