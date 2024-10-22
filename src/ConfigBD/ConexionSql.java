@@ -12,7 +12,7 @@ public class ConexionSql {
 
     private final String url = "jdbc:postgresql://localhost:5432/transicionEnergeticaJusta";
     private final String usuario = "postgres"; // Corrige el nombre del usuario a "postgres" si estaba mal escrito.
-    private final String contrasenia = "123456789";
+    private final String contrasenia = "S270322";
 
     // Metodo para establecer la conexión
     public Connection conectar() {
