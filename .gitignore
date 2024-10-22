@@ -1,0 +1,15 @@
+# Ignorar archivos de construcción
+/build/
+# Ignorar archivos temporales generados por el compilador
+*.class
+*.jar
+*.log
+# Ignorar archivos de salida
+/dist/
+# Ignorar archivos de configuración de IDE
+/.idea/
+/*.iml
+/nbproject/private/
+# Ignorar archivos de sistema
+*.DS_Store      # Para macOS
+Thumbs.db       # Para Windows
