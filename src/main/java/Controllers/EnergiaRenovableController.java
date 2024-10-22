@@ -1,12 +1,7 @@
 package Controllers;
 
-<<<<<<< HEAD:src/Controllers/EnergiaRenovableController.java
 import Services.EnergiaRenovableService;
-=======
-import Model.Usuario;
-import Services.EnergiaRenovableService;
-import java.util.List;
->>>>>>> Dev:src/main/java/Controllers/EnergiaRenovableController.java
+
 
 public class EnergiaRenovableController {
 
@@ -33,23 +28,4 @@ public class EnergiaRenovableController {
         return porcentajeConsumoElectricoTotalRegion;
 
     }
-<<<<<<< HEAD:src/Controllers/EnergiaRenovableController.java
-=======
-    
-    public List<Usuario>  obtenerUsuarios() {
-
-        List<Usuario>  usuarios = _energiaRenovableService.obtenerUsuarios();
-        return usuarios;
-
-    }
-
->>>>>>> Dev:src/main/java/Controllers/EnergiaRenovableController.java
-
-    // Metodo para iniciar sesión
-    public boolean iniciarSesion(String email, String contrasenia) {
-
-        boolean porcentajeConsumoElectricoTotalRegion = _energiaRenovableService.iniciarSesion(email, contrasenia);
-        return porcentajeConsumoElectricoTotalRegion;
-    }
-
 }

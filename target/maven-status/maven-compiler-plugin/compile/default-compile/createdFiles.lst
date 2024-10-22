@@ -7,7 +7,10 @@ Model\PlantaProduccion.class
 com\codelearn\transicionenergeticajusta\TransicionEnergeticaJusta.class
 Utils\Interfaces\IEnergiaRenovable.class
 Model\Dtos\Ejemplo.class
+Controllers\UsuarioController.class
+Repository\UsuarioRepository.class
 Vistas\PanelMenuPrincipal$3.class
+Services\UsuarioService.class
 Vistas\ConsultaUno.class
 Model\Reporte.class
 Vistas\ConsultaUno$5.class
@@ -18,6 +21,7 @@ Vistas\ConsultaUno$2.class
 Utils\Interfaces\IEnergiaRenovableService.class
 Vistas\VistaPrincipal.class
 Vistas\PanelMenuPrincipal$1.class
+Vistas\PanelMenuPrincipal$6.class
 Model\EnergiaHidraulica.class
 Model\Usuario.class
 Services\EnergiaRenovableService.class
@@ -34,3 +38,4 @@ Vistas\PanelMenuPrincipal$2.class
 Utils\Interfaces\IEnergiaRenovableRepository.class
 Vistas\VistaPrincipal$3.class
 Model\Pais.class
+Vistas\PanelMenuPrincipal$7.class

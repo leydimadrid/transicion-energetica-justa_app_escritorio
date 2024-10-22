@@ -1,23 +1,26 @@
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\EnergiaRenovable.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\com\codelearn\transicionenergeticajusta\TransicionEnergeticaJusta.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Controllers\EnergiaRenovableController.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\Pais.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Services\EnergiaRenovableService.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Utils\Interfaces\IEnergiaRenovable.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\EnergiaHidraulica.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\Biomasa.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\Reporte.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\Usuario.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\PlantaProduccion.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Vistas\ConsultaUno.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\Dtos\Ejemplo.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\EnergiaGeotermica.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\EnergiaTermica.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\EnergiaEolica.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Model\EnergiaSolar.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Utils\Interfaces\IEnergiaRenovableRepository.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Vistas\PanelMenuPrincipal.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\ConfigBD\ConexionSql.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Utils\Interfaces\IEnergiaRenovableService.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Repository\EnergiaRenovableRepository.java
-C:\Users\MI PC\Documents\NetBeansProjects\TransicionEnergeticaJusta\src\main\java\Vistas\VistaPrincipal.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\com\codelearn\transicionenergeticajusta\TransicionEnergeticaJusta.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\ConfigBD\ConexionSql.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Controllers\EnergiaRenovableController.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Controllers\UsuarioController.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\Biomasa.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\Dtos\Ejemplo.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\EnergiaEolica.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\EnergiaGeotermica.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\EnergiaHidraulica.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\EnergiaRenovable.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\EnergiaSolar.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\EnergiaTermica.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\Pais.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\PlantaProduccion.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\Reporte.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\Usuario.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Repository\EnergiaRenovableRepository.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Repository\UsuarioRepository.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Services\EnergiaRenovableService.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Services\UsuarioService.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Utils\Interfaces\IEnergiaRenovable.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Utils\Interfaces\IEnergiaRenovableRepository.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Utils\Interfaces\IEnergiaRenovableService.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Vistas\ConsultaUno.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Vistas\PanelMenuPrincipal.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Vistas\VistaPrincipal.java

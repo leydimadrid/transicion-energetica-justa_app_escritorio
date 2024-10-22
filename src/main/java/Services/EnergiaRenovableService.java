@@ -1,8 +1,6 @@
 package Services;
 
-import Model.Usuario;
 import Repository.EnergiaRenovableRepository;
-import java.util.List;
 
 
 public class EnergiaRenovableService {
@@ -28,20 +26,5 @@ public class EnergiaRenovableService {
         String porcentajeConsumoElectricoTotalRegion = _energiaRenovableRepository.obtenerPorcentajeConsumoElectricoTotalRegion(fuente, anio);
         return porcentajeConsumoElectricoTotalRegion;
 
-    }
-    
-     public List<Usuario>  obtenerUsuarios() {
-
-        List<Usuario>  usuarios = _energiaRenovableRepository.obtenerUsuarios();
-        return usuarios;
-
-    }
-
-
-    // Metodo para iniciar sesión
-    public boolean iniciarSesion(String email, String contrasenia) {
-
-        boolean inicioSesion = _energiaRenovableRepository.iniciarSesion(email, contrasenia);
-        return inicioSesion;
     }
 }
