@@ -17,7 +17,6 @@ Model\Reporte.class
 Vistas\ConsultaUno$5.class
 Model\EnergiaTermica.class
 Repository\EnergiaRenovableRepository.class
-Vistas\PanelMenuPrincipal$8.class
 Controllers\EnergiaRenovableController.class
 Vistas\ConsultaUno$2.class
 Utils\Interfaces\IEnergiaRenovableService.class
@@ -40,4 +39,3 @@ Vistas\PanelMenuPrincipal$2.class
 Utils\Interfaces\IEnergiaRenovableRepository.class
 Vistas\VistaPrincipal$3.class
 Model\Pais.class
-Vistas\PanelMenuPrincipal$7.class

@@ -63,9 +63,8 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     }
     private void setFuentes(){
         jTableUsuarios.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 16));
-
         jTableUsuarios.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
-
+        
         jLabelNombre.setFont(new Font(jLabelNombre.getFont().getName(), Font.PLAIN, 16));
         jLabelContrasenia.setFont(new Font(jLabelContrasenia.getFont().getName(), Font.PLAIN, 16));
         jLabelEmail.setFont(new Font(jLabelEmail.getFont().getName(), Font.PLAIN, 16));
@@ -82,13 +81,13 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jButtonGuardar.setFont(new Font(jButtonGuardar.getFont().getName(), Font.PLAIN, 16));
         jButtonBuscar.setFont(new Font(jButtonBuscar.getFont().getName(), Font.PLAIN, 16));
         jButtonEliminar.setFont(new Font(jButtonEliminar.getFont().getName(), Font.PLAIN, 16));
-        jButtonEditar.setFont(new Font(jButtonEditar.getFont().getName(), Font.PLAIN, 16));
+        jButtonActualizar.setFont(new Font(jButtonActualizar.getFont().getName(), Font.PLAIN, 16));
     }
 
     private void inicializarTablaUsuario() {
         tableModel = (DefaultTableModel) jTableUsuarios.getModel();
 
-        jTableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(20);
         jTableUsuarios.getColumnModel().getColumn(1).setPreferredWidth(150);
         jTableUsuarios.getColumnModel().getColumn(2).setPreferredWidth(200);
         jTableUsuarios.getColumnModel().getColumn(3).setPreferredWidth(100);
@@ -122,7 +121,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButtonBuscar = new javax.swing.JButton();
-        jButtonEditar = new javax.swing.JButton();
+        jButtonActualizar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
         jLabelNombre = new javax.swing.JLabel();
         jTextNombreUsuario = new javax.swing.JTextField();
@@ -131,16 +130,16 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jLabelContrasenia = new javax.swing.JLabel();
         jTextContrasenia = new javax.swing.JTextField();
         jLabelRol = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        JtablaUsuarios = new javax.swing.JScrollPane();
         jTableUsuarios = new javax.swing.JTable();
         jButtonGuardar = new javax.swing.JButton();
         jComboBoxRol = new javax.swing.JComboBox<>();
-        jButtonActualizar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocationByPlatform(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,7 +149,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 610, Short.MAX_VALUE)
+            .addGap(0, 635, Short.MAX_VALUE)
         );
 
         jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);
@@ -162,16 +161,18 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButtonEditar.setText("Editar");
-        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonActualizar.setText("Actualizar");
+        jButtonActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditarActionPerformed(evt);
+                jButtonActualizarActionPerformed(evt);
             }
         });
 
         jButtonEliminar.setText("Eliminar");
 
         jLabelNombre.setText("Nombre");
+
+        jTextNombreUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jLabelEmail.setText("E-mail");
 
@@ -185,6 +186,9 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
         jLabelRol.setText("Rol");
 
+        JtablaUsuarios.setToolTipText("");
+
+        jTableUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jTableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -208,13 +212,19 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTableUsuarios);
+        jTableUsuarios.setAlignmentX(0.8F);
+        jTableUsuarios.setAlignmentY(0.8F);
+        jTableUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jTableUsuarios.setName(""); // NOI18N
+        jTableUsuarios.setRowHeight(25);
+        JtablaUsuarios.setViewportView(jTableUsuarios);
         if (jTableUsuarios.getColumnModel().getColumnCount() > 0) {
             jTableUsuarios.getColumnModel().getColumn(0).setResizable(false);
             jTableUsuarios.getColumnModel().getColumn(1).setResizable(false);
             jTableUsuarios.getColumnModel().getColumn(2).setResizable(false);
             jTableUsuarios.getColumnModel().getColumn(3).setResizable(false);
         }
+        jTableUsuarios.getAccessibleContext().setAccessibleName("");
 
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -223,84 +233,63 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButtonActualizar.setText("Actualizar");
-        jButtonActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonActualizarMouseClicked(evt);
-            }
-        });
-        jButtonActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonActualizarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(90, 90, 90)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                    .addComponent(jLabelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextNombreUsuario)
+                    .addComponent(jLabelEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextEmail)
+                    .addComponent(jLabelContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextContrasenia)
+                    .addComponent(jLabelRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(69, 69, 69)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextNombreUsuario)
-                            .addComponent(jLabelEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextEmail)
-                            .addComponent(jLabelContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-                            .addComponent(jTextContrasenia)
-                            .addComponent(jLabelRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBoxRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(37, 37, 37)
-                        .addComponent(jButtonActualizar)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(11, Short.MAX_VALUE))))
+                    .addComponent(jButtonActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addComponent(JtablaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(391, 391, 391)
-                        .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelNombre)
-                            .addComponent(jButtonActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelEmail)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelContrasenia)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelRol, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18))
+                .addGap(29, 29, 29)
+                .addComponent(jLabelNombre)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addComponent(jLabelEmail)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addComponent(jLabelContrasenia)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabelRol, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addComponent(JtablaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33))
         );
 
         jTabbedEnergias.addTab("Gestion de usuarios", jPanel2);
@@ -326,7 +315,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedEnergias, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE))
+                .addComponent(jTabbedEnergias))
         );
 
         pack();
@@ -336,9 +325,9 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
-    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+    private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
         actualizarUsuario();
-    }//GEN-LAST:event_jButtonEditarActionPerformed
+    }//GEN-LAST:event_jButtonActualizarActionPerformed
 
     private void jTextEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextEmailActionPerformed
         // TODO add your handling code here:
@@ -347,13 +336,6 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
          agregarUsuario();
     }//GEN-LAST:event_jButtonGuardarActionPerformed
-
-    private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
-    cargarUsuariosEnTabla();
-    }//GEN-LAST:event_jButtonActualizarActionPerformed
-
-    private void jButtonActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarMouseClicked
-    }//GEN-LAST:event_jButtonActualizarMouseClicked
 
     private void cargarUsuariosEnTabla() {
         UsuarioRepository usuarioRepository = new UsuarioRepository();
@@ -375,11 +357,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         }
     }
     
-    
-     
-
-        
-    private void cargarDatosUsuarioSeleccionado() {
+        private void cargarDatosUsuarioSeleccionado() {
         int filaSeleccionada = jTableUsuarios.getSelectedRow();
         if (filaSeleccionada != -1) {
             idUser = (long) jTableUsuarios.getValueAt(filaSeleccionada, 0);
@@ -415,6 +393,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         Usuario usuario = new Usuario(0, nombre, email, contrasenia, rol); 
 
         usuarioController.agregarUsuario(usuario);
+        cargarUsuariosEnTabla();
 
         JOptionPane.showMessageDialog(this, "Registro agregado");
         
@@ -432,6 +411,11 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                     String email = jTextEmail.getText();
                     String contrasenia = jTextContrasenia.getText().trim();
                     String nombreRol = (String) jComboBoxRol.getSelectedItem();
+                    
+                    if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || nombreRol.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Complete todos los campos por favor", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                     }
 
                     
                     Rol rol = new Rol(); 
@@ -473,9 +457,9 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane JtablaUsuarios;
     private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonBuscar;
-    private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JComboBox<String> jComboBoxRol;
@@ -488,7 +472,6 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedEnergias;
     private javax.swing.JTable jTableUsuarios;
     private javax.swing.JTextField jTextContrasenia;
