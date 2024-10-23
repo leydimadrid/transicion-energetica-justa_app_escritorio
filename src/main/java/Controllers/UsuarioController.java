@@ -1,6 +1,7 @@
 package Controllers;
 
 
+import Model.Rol;
 import Model.Usuario;
 import java.util.List;
 import Services.UsuarioService;
@@ -49,6 +50,12 @@ public class UsuarioController {
 
         boolean porcentajeConsumoElectricoTotalRegion = usuarioService.iniciarSesion(email, contrasenia);
         return porcentajeConsumoElectricoTotalRegion;
+    }
+    
+    public List<Rol> obtenerListaRol() {
+
+        List<Rol> rol = usuarioService.obtenerListaRol();
+        return rol;
     }
     
 }

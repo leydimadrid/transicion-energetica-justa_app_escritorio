@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.border.LineBorder;
 
-
 public class VistaPrincipal extends javax.swing.JFrame {
 
     /**
@@ -192,24 +191,22 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
- /*String selectedItem = (String) jComboBox1.getSelectedItem();
+        /*String selectedItem = (String) jComboBox1.getSelectedItem();
         System.out.println("Seleccionaste: " + selectedItem);
         if(selectedItem == "Obtener producción total de energía renovable por tipo de fuente en un año específico"){
              ConsultaUno consultaUno = new ConsultaUno();
             System.out.println("Seleccionaste: " + selectedItem);
               this.setVisible(false);
         }
-        */
-
-
+         */
         EnergiaRenovableRepository energiaRepository = new EnergiaRenovableRepository();
 
         EnergiaRenovableService energiaService = new EnergiaRenovableService(energiaRepository);
 
         EnergiaRenovableController controller = new EnergiaRenovableController(energiaService);
-        
+
         UsuarioRepository usuarioRepository = new UsuarioRepository();
-        
+
         UsuarioService usuarioService = new UsuarioService(usuarioRepository);
 
         UsuarioController usuarioController = new UsuarioController(usuarioService);
@@ -222,7 +219,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             /*
             ConsultaUno consultaUno = new ConsultaUno();
             this.setVisible(false);
-            */
+             */
             PanelMenuPrincipal panelMenuPrincipal = new PanelMenuPrincipal();
             this.setVisible(false);
         } else {

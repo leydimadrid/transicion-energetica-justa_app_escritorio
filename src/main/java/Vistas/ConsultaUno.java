@@ -16,6 +16,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class ConsultaUno extends javax.swing.JFrame {
+
     public ConsultaUno() {
         initComponents();
         this.setVisible(true);
@@ -28,27 +29,25 @@ public class ConsultaUno extends javax.swing.JFrame {
 
         // Crear la gráfica
         JFreeChart grafico = ChartFactory.createBarChart(
-                "Producción de Energía",  // Título de la gráfica
-                "Tipo de Energía",        // Etiqueta del eje X
-                "Producción (MWh)",       // Etiqueta del eje Y
-                dataset,                  // Datos
+                "Producción de Energía", // Título de la gráfica
+                "Tipo de Energía", // Etiqueta del eje X
+                "Producción (MWh)", // Etiqueta del eje Y
+                dataset, // Datos
                 PlotOrientation.VERTICAL, // Orientación de la gráfica
-                true,                     // Incluir leyenda
-                true,                     // Incluir tooltips
-                false                     // Incluir URLs
+                true, // Incluir leyenda
+                true, // Incluir tooltips
+                false // Incluir URLs
         );
 
         // Crear un panel de la gráfica
         ChartPanel chartPanel = new ChartPanel(grafico);
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
 
-
         jPanel1.add(jLabel1);
         jPanel1.add(jComboBox1);
         jPanel1.add(jLabel2);
         jPanel1.add(jComboBox2);
         jPanel1.add(jButton1);
-
 
         // Crear un nuevo panel para la gráfica
         chartPanel = new ChartPanel(grafico);
@@ -285,7 +284,6 @@ public class ConsultaUno extends javax.swing.JFrame {
 
         // Crear instancia del controlador
         EnergiaRenovableController controller = new EnergiaRenovableController(energiaService);
-
 
         // Llamar al método del controlador para procesar la consulta
         String res = controller.obtenerPorcentajeConsumoElectricoTotalRegion(tipoEnergia, anio);
