@@ -30,6 +30,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     private UsuarioController usuarioController;
     private UsuarioService usuarioService;
     private DefaultTableModel tableModel;
+    long idUser = 0;
 
     /**
      * Creates new form PanelMenuPrincipal
@@ -381,6 +382,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     private void cargarDatosUsuarioSeleccionado() {
         int filaSeleccionada = jTableUsuarios.getSelectedRow();
         if (filaSeleccionada != -1) {
+            idUser = (long) jTableUsuarios.getValueAt(filaSeleccionada, 0);
             String nombre = jTableUsuarios.getValueAt(filaSeleccionada, 1).toString();
             String email = jTableUsuarios.getValueAt(filaSeleccionada, 2).toString();
             String rol = jTableUsuarios.getValueAt(filaSeleccionada, 3).toString();
@@ -434,18 +436,22 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                     
                     Rol rol = new Rol(); 
                     rol.setNombre(nombreRol);
+                    rol.setId(1);
                     
 
                     // Crear el objeto Usuario y Rol
                     Usuario usuario = new Usuario(); 
+                    usuario.setId(idUser);
+                    usuario.setContrasenia(contrasenia);
                     usuario.setNombre(nombre);
                     usuario.setEmail(email);
                     usuario.setRol(rol);
+                    
 
                     
                     // Actualizar el usuario
                    usuarioController.actualizarUsuario(usuario);
-                  //  cargarUsuariosEnTabla();
+                   cargarUsuariosEnTabla();
                  
                     JOptionPane.showMessageDialog(null, "Usuario actualizado correctamente.");
                 } catch (Exception ex) {
