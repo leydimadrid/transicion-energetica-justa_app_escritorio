@@ -6,6 +6,7 @@ package Vistas;
 
 import Controllers.EnergiaRenovableController;
 import Controllers.UsuarioController;
+import Model.Rol;
 import Model.Usuario;
 import Repository.EnergiaRenovableRepository;
 import Repository.UsuarioRepository;
@@ -25,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
  * @author MI PC
  */
 public class PanelMenuPrincipal extends javax.swing.JFrame {
+
     private UsuarioController usuarioController;
     private UsuarioService usuarioService;
     private DefaultTableModel tableModel;
@@ -35,15 +37,30 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     public PanelMenuPrincipal() {
         initComponents();
         usuarioService = new UsuarioService();
-        inicializarTabla();
-        
         usuarioController = new UsuarioController();
-        
         this.setVisible(true);
         setLocationRelativeTo(null);
         this.setResizable(false);
+        inicializarTablaUsuario();
+        icicializarComboboxRol(); 
+        setFuentes(); 
 
+    }
+    private void icicializarComboboxRol(){
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
 
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+
+        UsuarioController usuarioController = new UsuarioController(usuarioService);
+
+        List<Rol> listRoles = usuarioController.obtenerListaRol();
+
+         for (Rol rol : listRoles) {
+            jComboBoxRol.addItem(rol.getNombre());
+        }
+        
+    }
+    private void setFuentes(){
         jTableUsuarios.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 16));
 
         jTableUsuarios.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
@@ -53,6 +70,11 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jLabelEmail.setFont(new Font(jLabelEmail.getFont().getName(), Font.PLAIN, 16));
         jLabelRol.setFont(new Font(jLabelRol.getFont().getName(), Font.PLAIN, 16));
 
+        jTextNombreUsuario.setFont(new Font(jTextNombreUsuario.getFont().getName(), Font.PLAIN, 16));
+        jTextContrasenia.setFont(new Font(jTextContrasenia.getFont().getName(), Font.PLAIN, 16));
+        jTextEmail.setFont(new Font(jTextEmail.getFont().getName(), Font.PLAIN, 16));
+        jComboBoxRol.setFont(new Font(jComboBoxRol.getFont().getName(), Font.PLAIN, 16));
+
         jTabbedEnergias.setFont(new Font(jTabbedEnergias.getFont().getName(), Font.PLAIN, 16));
         jTableUsuarios.setFont(new Font(jTableUsuarios.getFont().getName(), Font.PLAIN, 16));
 
@@ -60,27 +82,24 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jButtonBuscar.setFont(new Font(jButtonBuscar.getFont().getName(), Font.PLAIN, 16));
         jButtonEliminar.setFont(new Font(jButtonEliminar.getFont().getName(), Font.PLAIN, 16));
         jButtonModificar.setFont(new Font(jButtonModificar.getFont().getName(), Font.PLAIN, 16));
-
-
     }
 
-    private void inicializarTabla() {
+    private void inicializarTablaUsuario() {
         tableModel = (DefaultTableModel) jTableUsuarios.getModel();
 
         jTableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(50);
         jTableUsuarios.getColumnModel().getColumn(1).setPreferredWidth(150);
         jTableUsuarios.getColumnModel().getColumn(2).setPreferredWidth(200);
         jTableUsuarios.getColumnModel().getColumn(3).setPreferredWidth(100);
-        
 
         EnergiaRenovableRepository energiaRepository = new EnergiaRenovableRepository();
 
         EnergiaRenovableService energiaService = new EnergiaRenovableService(energiaRepository);
 
         EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaService);
-        
+
         UsuarioRepository usuarioRepository = new UsuarioRepository();
-        
+
         UsuarioService usuarioService = new UsuarioService(usuarioRepository);
 
         UsuarioController usuarioController = new UsuarioController(usuarioService);
@@ -90,15 +109,14 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         tableModel.setRowCount(0);
         for (Usuario usuario : listUsuarios) {
             tableModel.addRow(new Object[]{
-                    usuario.getId(),
-                    usuario.getNombre(),
-                    usuario.getEmail(),
-                    usuario.getRol()
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getRol().getNombre()
             });
         }
 
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,7 +130,6 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jTabbedEnergias = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButtonGuardar = new javax.swing.JButton();
         jButtonBuscar = new javax.swing.JButton();
         jButtonModificar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
@@ -123,9 +140,10 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jLabelContrasenia = new javax.swing.JLabel();
         jTextContrasenia = new javax.swing.JTextField();
         jLabelRol = new javax.swing.JLabel();
-        jTextRol = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUsuarios = new javax.swing.JTable();
+        jButtonGuardar = new javax.swing.JButton();
+        jComboBoxRol = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -144,18 +162,6 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         );
 
         jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);
-
-        jButtonGuardar.setText("Guardar");
-        jButtonGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonGuardarMouseClicked(evt);
-            }
-        });
-        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarActionPerformed(evt);
-            }
-        });
 
         jButtonBuscar.setText("Buscar");
         jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -218,6 +224,13 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             jTableUsuarios.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        jButtonGuardar.setText("Guardar");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -227,8 +240,8 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -242,7 +255,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabelContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                     .addComponent(jTextContrasenia)
                     .addComponent(jLabelRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextRol))
+                    .addComponent(jComboBoxRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(182, 182, 182))
         );
         jPanel2Layout.setVerticalGroup(
@@ -263,8 +276,8 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelRol, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextRol, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -320,36 +333,37 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextEmailActionPerformed
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
-       
-agregar();
+         agregar();
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
-    private void jButtonGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGuardarMouseClicked
-        agregar();
-    }//GEN-LAST:event_jButtonGuardarMouseClicked
-
     private void agregar() {
-    String nombre = jTextNombreUsuario.getText().trim();
-    String email = jTextEmail.getText().trim();
-    String contrasenia = jTextContrasenia.getText().trim();
-    String rol = jTextRol.getText().trim();
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
 
-    // Input validation
-    if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || rol.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Input Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
 
-    // Create a new Usuario object
-    Usuario usuario = new Usuario(0, nombre, email, contrasenia); // Use the rol field
+        UsuarioController usuarioController = new UsuarioController(usuarioService);
+        String nombre = jTextNombreUsuario.getText().trim();
+        String email = jTextEmail.getText().trim();
+        String contrasenia = jTextContrasenia.getText().trim();
+        String nombreRol = (String) jComboBoxRol.getSelectedItem();
 
-    try {
+        if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || nombreRol.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Complete todos los campos por favor", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Rol rol = new Rol(); 
+        rol.setNombre(nombreRol);
+
+        Usuario usuario = new Usuario(0, nombre, email, contrasenia, rol); 
+
         usuarioService.agregarUsuario(usuario);
+
         JOptionPane.showMessageDialog(this, "Registro agregado");
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error adding user: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        
+        
     }
-}
+
     /**
      * @param args the command line arguments
      */
@@ -367,6 +381,7 @@ agregar();
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonModificar;
+    private javax.swing.JComboBox<String> jComboBoxRol;
     private javax.swing.JLabel jLabelContrasenia;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelNombre;
@@ -382,6 +397,5 @@ agregar();
     private javax.swing.JTextField jTextContrasenia;
     private javax.swing.JTextField jTextEmail;
     private javax.swing.JTextField jTextNombreUsuario;
-    private javax.swing.JTextField jTextRol;
     // End of variables declaration//GEN-END:variables
 }
