@@ -35,8 +35,12 @@ public class UsuarioController {
     }
        
 
-    public void agregarUsuario(Usuario usuario) throws SQLException{
-        usuarioService.agregarUsuario(usuario);
+    public void agregarUsuario(Usuario usuario) {
+        try {
+            usuarioService.agregarUsuario(usuario);
+        } catch(Exception ex){
+        }
+        
     }
     
     

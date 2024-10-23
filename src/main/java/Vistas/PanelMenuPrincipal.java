@@ -81,7 +81,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jButtonGuardar.setFont(new Font(jButtonGuardar.getFont().getName(), Font.PLAIN, 16));
         jButtonBuscar.setFont(new Font(jButtonBuscar.getFont().getName(), Font.PLAIN, 16));
         jButtonEliminar.setFont(new Font(jButtonEliminar.getFont().getName(), Font.PLAIN, 16));
-        jButtonModificar.setFont(new Font(jButtonModificar.getFont().getName(), Font.PLAIN, 16));
+        jButtonEditar.setFont(new Font(jButtonEditar.getFont().getName(), Font.PLAIN, 16));
     }
 
     private void inicializarTablaUsuario() {
@@ -98,23 +98,13 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
         EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaService);
 
-        UsuarioRepository usuarioRepository = new UsuarioRepository();
-
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
-
-        UsuarioController usuarioController = new UsuarioController(usuarioService);
-
-        List<Usuario> listUsuarios = usuarioController.obtenerUsuarios();
-
-        tableModel.setRowCount(0);
-        for (Usuario usuario : listUsuarios) {
-            tableModel.addRow(new Object[]{
-                usuario.getId(),
-                usuario.getNombre(),
-                usuario.getEmail(),
-                usuario.getRol().getNombre()
-            });
-        }
+         cargarUsuariosEnTabla();
+        
+        jTableUsuarios.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && jTableUsuarios.getSelectedRow() != -1) {
+                cargarDatosUsuarioSeleccionado();
+            }
+        });
 
     }
 
@@ -131,7 +121,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButtonBuscar = new javax.swing.JButton();
-        jButtonModificar = new javax.swing.JButton();
+        jButtonEditar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
         jLabelNombre = new javax.swing.JLabel();
         jTextNombreUsuario = new javax.swing.JTextField();
@@ -144,6 +134,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jTableUsuarios = new javax.swing.JTable();
         jButtonGuardar = new javax.swing.JButton();
         jComboBoxRol = new javax.swing.JComboBox<>();
+        jButtonActualizar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -158,7 +149,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addGap(0, 610, Short.MAX_VALUE)
         );
 
         jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);
@@ -170,10 +161,10 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButtonModificar.setText("Modificar");
-        jButtonModificar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonModificarActionPerformed(evt);
+                jButtonEditarActionPerformed(evt);
             }
         });
 
@@ -231,6 +222,18 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButtonActualizar.setText("Actualizar");
+        jButtonActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonActualizarMouseClicked(evt);
+            }
+        });
+        jButtonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonActualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -238,56 +241,64 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextNombreUsuario)
-                    .addComponent(jLabelEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextEmail)
-                    .addComponent(jLabelContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-                    .addComponent(jTextContrasenia)
-                    .addComponent(jLabelRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(182, 182, 182))
+                    .addComponent(jButtonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextNombreUsuario)
+                            .addComponent(jLabelEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextEmail)
+                            .addComponent(jLabelContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                            .addComponent(jTextContrasenia)
+                            .addComponent(jLabelRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(37, 37, 37)
+                        .addComponent(jButtonActualizar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(11, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabelNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelEmail)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelContrasenia)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelRol, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(391, 391, 391)
                         .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
                         .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelNombre)
+                            .addComponent(jButtonActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelEmail)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelContrasenia)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelRol, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18))
         );
 
@@ -314,7 +325,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedEnergias))
+                .addComponent(jTabbedEnergias, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE))
         );
 
         pack();
@@ -324,19 +335,63 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
-    private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonModificarActionPerformed
+    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
+        actualizarUsuario();
+    }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jTextEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextEmailActionPerformed
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
-         agregar();
+         agregarUsuario();
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
-    private void agregar() {
+    private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
+    cargarUsuariosEnTabla();
+    }//GEN-LAST:event_jButtonActualizarActionPerformed
+
+    private void jButtonActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarMouseClicked
+    }//GEN-LAST:event_jButtonActualizarMouseClicked
+
+    private void cargarUsuariosEnTabla() {
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
+
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+
+        UsuarioController usuarioController = new UsuarioController(usuarioService);
+        
+        List<Usuario> listUsuarios = usuarioController.obtenerUsuarios();
+
+        tableModel.setRowCount(0);
+        for (Usuario usuario : listUsuarios) {
+            tableModel.addRow(new Object[]{
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getRol().getNombre()
+            });
+        }
+    }
+    
+    
+     
+
+        
+    private void cargarDatosUsuarioSeleccionado() {
+        int filaSeleccionada = jTableUsuarios.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String nombre = jTableUsuarios.getValueAt(filaSeleccionada, 1).toString();
+            String email = jTableUsuarios.getValueAt(filaSeleccionada, 2).toString();
+            String rol = jTableUsuarios.getValueAt(filaSeleccionada, 3).toString();
+            jComboBoxRol.setSelectedItem(rol);
+            jTextNombreUsuario.setText(nombre);
+            jTextEmail.setText(email);
+        }
+    }
+    
+    
+    private void agregarUsuario() {
         UsuarioRepository usuarioRepository = new UsuarioRepository();
 
         UsuarioService usuarioService = new UsuarioService(usuarioRepository);
@@ -357,13 +412,48 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
         Usuario usuario = new Usuario(0, nombre, email, contrasenia, rol); 
 
-        usuarioService.agregarUsuario(usuario);
+        usuarioController.agregarUsuario(usuario);
 
         JOptionPane.showMessageDialog(this, "Registro agregado");
         
         
     }
+    
+    private void actualizarUsuario() {
+      // cargarDatosUsuarioSeleccionado();
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+        UsuarioController usuarioController = new UsuarioController(usuarioService);
+        try {
+                    // Obtener datos de los campos
+                    String nombre =  jTextNombreUsuario.getText();
+                    String email = jTextEmail.getText();
+                    String contrasenia = jTextContrasenia.getText().trim();
+                    String nombreRol = (String) jComboBoxRol.getSelectedItem();
 
+                    
+                    Rol rol = new Rol(); 
+                    rol.setNombre(nombreRol);
+                    
+
+                    // Crear el objeto Usuario y Rol
+                    Usuario usuario = new Usuario(); 
+                    usuario.setNombre(nombre);
+                    usuario.setEmail(email);
+                    usuario.setRol(rol);
+
+                    
+                    // Actualizar el usuario
+                   usuarioController.actualizarUsuario(usuario);
+                  //  cargarUsuariosEnTabla();
+                 
+                    JOptionPane.showMessageDialog(null, "Usuario actualizado correctamente.");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error al actualizar usuario: " + ex.getMessage());
+                }
+        
+            }
+       
     /**
      * @param args the command line arguments
      */
@@ -377,10 +467,11 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonBuscar;
+    private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
-    private javax.swing.JButton jButtonModificar;
     private javax.swing.JComboBox<String> jComboBoxRol;
     private javax.swing.JLabel jLabelContrasenia;
     private javax.swing.JLabel jLabelEmail;

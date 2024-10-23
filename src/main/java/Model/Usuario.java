@@ -7,6 +7,9 @@ public class Usuario {
     private String email;
     private String contrasenia;
     private Rol rol;
+    
+    public Usuario() {   
+    }
 
     public Usuario(int id, String nombre, String email, String contrasenia, Rol rol) {
         this.id = id;
@@ -23,6 +26,8 @@ public class Usuario {
         this.email = email;
         this.rol = rol;
     }
+
+    
 
     public long getId() {
         return id;
