@@ -43,8 +43,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedEnergias" min="-2" pref="711" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jTabbedEnergias" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,12 +74,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="711" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="802" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="635" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="643" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -97,6 +97,11 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                      <Component id="JtablaUsuarios" min="-2" pref="669" max="-2" attributes="0"/>
+                      <EmptySpace pref="74" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabelNombre" max="32767" attributes="0"/>
@@ -108,7 +113,7 @@
                           <Component id="jLabelRol" max="32767" attributes="0"/>
                           <Component id="jComboBoxRol" min="-2" pref="329" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jButtonBuscar" alignment="0" max="32767" attributes="0"/>
                           <Component id="jButtonGuardar" alignment="0" max="32767" attributes="0"/>
@@ -116,11 +121,8 @@
                           <Component id="jButtonEliminar" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="23" max="32767" attributes="0"/>
-                      <Component id="JtablaUsuarios" min="-2" pref="669" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      <Component id="spinner" min="-2" pref="138" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -135,18 +137,23 @@
                           <Component id="jButtonBuscar" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Component id="jLabelEmail" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextEmail" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
-                          <Component id="jButtonGuardar" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Component id="jLabelContrasenia" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextContrasenia" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="jButtonActualizar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jLabelEmail" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jTextEmail" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                  <Component id="jButtonGuardar" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                              <Component id="jLabelContrasenia" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jTextContrasenia" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
+                                  <Component id="jButtonActualizar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="spinner" min="-2" pref="117" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="jLabelRol" min="-2" pref="15" max="-2" attributes="0"/>
@@ -155,9 +162,9 @@
                           <Component id="jComboBoxRol" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
                           <Component id="jButtonEliminar" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="62" max="32767" attributes="0"/>
+                      <EmptySpace pref="54" max="32767" attributes="0"/>
                       <Component id="JtablaUsuarios" min="-2" pref="223" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -183,6 +190,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eliminar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEliminarActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelNombre">
               <Properties>
@@ -221,9 +231,6 @@
             <Container class="javax.swing.JScrollPane" name="JtablaUsuarios">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
-                <Property name="columnHeaderView" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                  <ComponentRef name="default"/>
-                </Property>
               </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
@@ -299,6 +306,13 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="spinner">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Andrea\NuevaRepo\src\main\java\com\codelearn\transicionenergeticajusta\Resources\Spinner2.gif"/>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
