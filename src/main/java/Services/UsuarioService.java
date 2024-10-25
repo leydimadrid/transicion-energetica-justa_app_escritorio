@@ -21,28 +21,38 @@ import java.util.logging.Logger;
  * @author Leydi
  */
 public class UsuarioService {
-    
+
     public UsuarioRepository usuarioRepository;
-      
+
     // Constructor
     public UsuarioService() {
-     
-    }
- 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository= usuarioRepository;
+
     }
 
-    
-         
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
+
     public List<Usuario> obtenerUsuarios() {
-        List<Usuario> usuarios = usuarioRepository.obtenerUsuarios();     
+        List<Usuario> usuarios = usuarioRepository.obtenerUsuarios();
         return usuarios;
     }
-         
-         
-         
-    public void agregarUsuario(Usuario usuario){
+
+    public Usuario obtenerUsuarioByEmail(String email) {
+
+        Usuario usuario = usuarioRepository.obtenerUsuarioByEmail(email);
+        return usuario;
+
+    }
+
+    public Usuario eliminarUsuarioById(long id) {
+
+        Usuario usuario = usuarioRepository.eliminarUsuarioById(id);
+        return usuario;
+
+    }
+
+    public void agregarUsuario(Usuario usuario) {
         try {
             usuarioRepository.agregarUsuario(usuario);
         } catch (SQLException ex) {
@@ -50,25 +60,25 @@ public class UsuarioService {
         }
 
     }
-         
+
     public void actualizarUsuario(Usuario usuario) {
-       try {
+        try {
             usuarioRepository.actualizarUsuario(usuario);
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-  
 
     // Metodo para iniciar sesión
     public boolean iniciarSesion(String email, String contrasenia) {
         boolean inicioSesion = usuarioRepository.iniciarSesion(email, contrasenia);
         return inicioSesion;
     }
-     public List<Rol> obtenerListaRol() {
+
+    public List<Rol> obtenerListaRol() {
 
         List<Rol> rol = usuarioRepository.obtenerLitaRol();
         return rol;
     }
-    
+
 }

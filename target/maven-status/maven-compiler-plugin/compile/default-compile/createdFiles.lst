@@ -7,6 +7,7 @@ Model\EnergiaRenovable.class
 Model\PlantaProduccion.class
 com\codelearn\transicionenergeticajusta\TransicionEnergeticaJusta.class
 Utils\Interfaces\IEnergiaRenovable.class
+Vistas\PanelMenuPrincipal$9.class
 Model\Dtos\Ejemplo.class
 Controllers\UsuarioController.class
 Repository\UsuarioRepository.class
