@@ -367,27 +367,6 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         eliminarUsuarioById();
 
     }//GEN-LAST:event_jButtonEliminarActionPerformed
-    /*private void eliminarUsuarioById() {
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este usuario?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-
-        if (confirmacion == JOptionPane.NO_OPTION) {
-            return;
-        }
-
-        UsuarioRepository usuarioRepository = new UsuarioRepository();
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
-        UsuarioController usuarioController = new UsuarioController(usuarioService);
-
-        Usuario usuarioEliminado = usuarioController.eliminarUsuarioById(idUser);
-
-        if (usuarioEliminado != null) {
-            JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente:\nEmail: " + usuarioEliminado.getEmail(), "Eliminación exitosa", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "El usuario no existe o el ID es incorrecto.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        cargarUsuariosEnTabla();
-    }*/
-
     private void eliminarUsuarioById() {
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este usuario?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
@@ -432,7 +411,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
     private void buscarByEmail() {
         spinner.setVisible(true);
-        String email = jTextEmail.getText().trim().toLowerCase();
+        String email = jTextEmail.getText().trim();
         if (email.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debes ingresar el Email que deseas buscar", "Input Error", JOptionPane.ERROR_MESSAGE);
             spinner.setVisible(false);
@@ -462,6 +441,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                         jTextContrasenia.setText(usuario.getContrasenia());
                         jComboBoxRol.setSelectedItem(usuario.getRol().getNombre());
                         jButtonEliminar.setEnabled(true);
+                        idUser = usuario.getId();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -510,71 +490,109 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     }
 
     private void agregarUsuario() {
-        UsuarioRepository usuarioRepository = new UsuarioRepository();
 
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+        spinner.setVisible(true);
 
-        UsuarioController usuarioController = new UsuarioController(usuarioService);
-        String nombre = jTextNombreUsuario.getText().trim();
-        String email = jTextEmail.getText().trim();
-        String contrasenia = jTextContrasenia.getText().trim();
-        String nombreRol = (String) jComboBoxRol.getSelectedItem();
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                UsuarioRepository usuarioRepository = new UsuarioRepository();
+                UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+                UsuarioController usuarioController = new UsuarioController(usuarioService);
 
-        if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || nombreRol.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Complete todos los campos por favor", "Input Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+                String nombre = jTextNombreUsuario.getText().trim();
+                String email = jTextEmail.getText().trim();
+                String contrasenia = jTextContrasenia.getText().trim();
+                String nombreRol = (String) jComboBoxRol.getSelectedItem();
 
-        Rol rol = new Rol();
-        rol.setNombre(nombreRol);
+                if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || nombreRol.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Complete todos los campos por favor", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
 
-        Usuario usuario = new Usuario(0, nombre, email, contrasenia, rol);
+                Rol rol = new Rol();
+                rol.setNombre(nombreRol);
 
-        usuarioController.agregarUsuario(usuario);
-        cargarUsuariosEnTabla();
+                Usuario usuario = new Usuario(0, nombre, email, contrasenia, rol);
 
-        JOptionPane.showMessageDialog(this, "Registro agregado");
+                usuarioController.agregarUsuario(usuario);
+                return null;
+            }
 
+            @Override
+            protected void done() {
+                try {
+                    cargarUsuariosEnTabla();
+                    JOptionPane.showMessageDialog(null, "Registro agregado");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    // Ocultar el spinner
+                    spinner.setVisible(false);
+                }
+            }
+        };
+
+        worker.execute();
     }
 
     private void actualizarUsuario() {
-        // cargarDatosUsuarioSeleccionado();
-        UsuarioRepository usuarioRepository = new UsuarioRepository();
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
-        UsuarioController usuarioController = new UsuarioController(usuarioService);
-        try {
-            // Obtener datos de los campos
-            String nombre = jTextNombreUsuario.getText();
-            String email = jTextEmail.getText();
-            String contrasenia = jTextContrasenia.getText().trim();
-            String nombreRol = (String) jComboBoxRol.getSelectedItem();
+        // Mostrar el spinner antes de ejecutar la tarea
+        spinner.setVisible(true);
 
-            if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || nombreRol.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Complete todos los campos por favor", "Input Error", JOptionPane.ERROR_MESSAGE);
-                return;
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                UsuarioRepository usuarioRepository = new UsuarioRepository();
+                UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+                UsuarioController usuarioController = new UsuarioController(usuarioService);
+
+                // Obtener datos de los campos
+                String nombre = jTextNombreUsuario.getText().trim();
+                String email = jTextEmail.getText().trim();
+                String contrasenia = jTextContrasenia.getText().trim();
+                String nombreRol = (String) jComboBoxRol.getSelectedItem();
+
+                // Validación de campos
+                if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || nombreRol.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Complete todos los campos por favor", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+
+                // Crear el objeto Rol y Usuario con los datos obtenidos
+                Rol rol = new Rol();
+                rol.setNombre(nombreRol);
+                rol.setId(1);  // Aquí debes establecer el ID adecuado para el rol
+
+                Usuario usuario = new Usuario();
+                usuario.setId(idUser);
+                usuario.setNombre(nombre);
+                usuario.setEmail(email);
+                usuario.setContrasenia(contrasenia);
+                usuario.setRol(rol);
+
+                // Llamada al controlador para actualizar el usuario
+                usuarioController.actualizarUsuario(usuario);
+                return null;
             }
 
-            Rol rol = new Rol();
-            rol.setNombre(nombreRol);
-            rol.setId(1);
+            @Override
+            protected void done() {
+                try {
+                    // Actualizar la tabla y mostrar mensaje de éxito si no hubo excepciones
+                    cargarUsuariosEnTabla();
+                    JOptionPane.showMessageDialog(null, "Usuario actualizado correctamente.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error al actualizar usuario: " + e.getMessage());
+                } finally {
+                    // Ocultar el spinner
+                    spinner.setVisible(false);
+                }
+            }
+        };
 
-            // Crear el objeto Usuario y Rol
-            Usuario usuario = new Usuario();
-            usuario.setId(idUser);
-            usuario.setContrasenia(contrasenia);
-            usuario.setNombre(nombre);
-            usuario.setEmail(email);
-            usuario.setRol(rol);
-
-            // Actualizar el usuario
-            usuarioController.actualizarUsuario(usuario);
-            cargarUsuariosEnTabla();
-
-            JOptionPane.showMessageDialog(null, "Usuario actualizado correctamente.");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar usuario: " + ex.getMessage());
-        }
-
+        // Ejecutar el worker en segundo plano
+        worker.execute();
     }
 
     /**
