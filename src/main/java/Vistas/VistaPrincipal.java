@@ -11,6 +11,8 @@ import java.awt.Font;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 public class VistaPrincipal extends javax.swing.JFrame {
@@ -23,6 +25,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         agregarConsultas();
         setLocationRelativeTo(null);
         this.setResizable(false);
+        Spinner.setVisible(false);
     }
 
     private void agregarConsultas() {
@@ -43,18 +46,18 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jTextField1.setBorder(new LineBorder(Color.GRAY, 2, true));
         jTextField2.setBorder(new LineBorder(Color.GRAY, 2, true));
 
-        jButton1.setFont(new Font(jButton1.getFont().getName(), Font.PLAIN, 16));
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jButtonIngresar.setFont(new Font(jButtonIngresar.getFont().getName(), Font.PLAIN, 16));
+        jButtonIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton1.setBackground(Color.GRAY);
-                jButton1.setForeground(Color.WHITE);
+                jButtonIngresar.setBackground(Color.GRAY);
+                jButtonIngresar.setForeground(Color.WHITE);
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton1.setBackground(Color.LIGHT_GRAY);
-                jButton1.setForeground(Color.BLACK);
+                jButtonIngresar.setBackground(Color.LIGHT_GRAY);
+                jButtonIngresar.setForeground(Color.BLACK);
             }
         });
 
@@ -79,15 +82,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButtonIngresar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        Spinner = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Transición energética justa");
         jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -101,10 +104,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Ingresar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonIngresar.setText("Ingresar");
+        jButtonIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonIngresarActionPerformed(evt);
             }
         });
 
@@ -115,6 +118,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel4.setText("Contraseña");
 
         jLabel6.setText("*");
+
+        Spinner.setIcon(new javax.swing.ImageIcon("C:\\Andrea\\NuevaRepo\\src\\main\\java\\com\\codelearn\\transicionenergeticajusta\\Resources\\Spinner2.gif")); // NOI18N
+        Spinner.setText("jLabel7");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -140,10 +146,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
                                     .addComponent(jTextField1)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField2)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jButtonIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 101, Short.MAX_VALUE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(336, 336, 336))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,19 +164,21 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(22, 22, 22)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Spinner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -182,8 +194,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -192,49 +204,61 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new VistaPrincipal().setVisible(true);
+            }
+        });
+    }
+    private void jButtonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIngresarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Spinner.setVisible(true);
 
-        /*String selectedItem = (String) jComboBox1.getSelectedItem();
-        System.out.println("Seleccionaste: " + selectedItem);
-        if(selectedItem == "Obtener producción total de energía renovable por tipo de fuente en un año específico"){
-             ConsultaUno consultaUno = new ConsultaUno();
-            System.out.println("Seleccionaste: " + selectedItem);
-              this.setVisible(false);
-        }
-         */
-        EnergiaRenovableRepository energiaRepository = new EnergiaRenovableRepository();
+        SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
 
-        EnergiaRenovableService energiaService = new EnergiaRenovableService(energiaRepository);
+                UsuarioRepository usuarioRepository = new UsuarioRepository();
+                UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+                UsuarioController usuarioController = new UsuarioController(usuarioService);
 
-        EnergiaRenovableController controller = new EnergiaRenovableController(energiaService);
+                String email = jTextField1.getText().trim();
+                String contrasenia = jTextField2.getText().trim();
 
-        UsuarioRepository usuarioRepository = new UsuarioRepository();
+                return usuarioController.iniciarSesion(email, contrasenia);
+            }
 
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+            @Override
+            protected void done() {
+                try {
+                    boolean ingreso = get();
+                    if (ingreso) {
+                        PanelMenuPrincipal panelMenuPrincipal = new PanelMenuPrincipal();
+                        panelMenuPrincipal.setVisible(true);
+                        dispose();
+                    } else {
+                        jLabel6.setText("El usuario o la contraseña son incorrectos");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error al iniciar sesión: " + e.getMessage());
+                } finally {
+                    Spinner.setVisible(false);
+                }
+            }
+        };
 
-        UsuarioController usuarioController = new UsuarioController(usuarioService);
+        // Ejecuta el worker en segundo plano
+        worker.execute();
 
-        String email = jTextField1.getText();
-        String contrasenia = jTextField2.getText();
-
-        boolean ingreso = usuarioController.iniciarSesion(email, contrasenia);
-        if (ingreso) {
-            /*
-            ConsultaUno consultaUno = new ConsultaUno();
-            this.setVisible(false);
-             */
-            PanelMenuPrincipal panelMenuPrincipal = new PanelMenuPrincipal();
-            this.setVisible(false);
-        } else {
-            jLabel6.setText("El usuario o la contraseña son incorrectos");
-            System.out.println("No funciona................");
-        }
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonIngresarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel Spinner;
+    private javax.swing.JButton jButtonIngresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
