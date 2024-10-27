@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
  * @author MI PC
  */
 public class PanelMenuPrincipal extends javax.swing.JFrame {
+
     private UsuarioController usuarioController;
     private UsuarioService usuarioService;
     private DefaultTableModel tableModel;
@@ -36,13 +37,12 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         initComponents();
         usuarioService = new UsuarioService();
         inicializarTabla();
-        
+
         usuarioController = new UsuarioController();
-        
+
         this.setVisible(true);
         setLocationRelativeTo(null);
         this.setResizable(false);
-
 
         jTableUsuarios.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 16));
 
@@ -61,7 +61,6 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jButtonEliminar.setFont(new Font(jButtonEliminar.getFont().getName(), Font.PLAIN, 16));
         jButtonModificar.setFont(new Font(jButtonModificar.getFont().getName(), Font.PLAIN, 16));
 
-
     }
 
     private void inicializarTabla() {
@@ -71,16 +70,15 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jTableUsuarios.getColumnModel().getColumn(1).setPreferredWidth(150);
         jTableUsuarios.getColumnModel().getColumn(2).setPreferredWidth(200);
         jTableUsuarios.getColumnModel().getColumn(3).setPreferredWidth(100);
-        
 
         EnergiaRenovableRepository energiaRepository = new EnergiaRenovableRepository();
 
         EnergiaRenovableService energiaService = new EnergiaRenovableService(energiaRepository);
 
         EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaService);
-        
+
         UsuarioRepository usuarioRepository = new UsuarioRepository();
-        
+
         UsuarioService usuarioService = new UsuarioService(usuarioRepository);
 
         UsuarioController usuarioController = new UsuarioController(usuarioService);
@@ -90,15 +88,14 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         tableModel.setRowCount(0);
         for (Usuario usuario : listUsuarios) {
             tableModel.addRow(new Object[]{
-                    usuario.getId(),
-                    usuario.getNombre(),
-                    usuario.getEmail(),
-                    usuario.getRol()
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getRol()
             });
         }
 
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,11 +107,6 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedEnergias = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButtonGuardar = new javax.swing.JButton();
         jButtonBuscar = new javax.swing.JButton();
@@ -130,62 +122,19 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jTextRol = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUsuarios = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jButton1.setText("Ir");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Consulta Producción total Energia Renovable");
-
-        jLabel2.setText("Consumo a nivel global");
-
-        jButton2.setText("Ir");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel1)
-                .addGap(188, 188, 188)
-                .addComponent(jLabel2)
-                .addContainerGap(264, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(286, 286, 286))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(475, Short.MAX_VALUE))
-        );
-
-        jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);
 
         jButtonGuardar.setText("Guardar");
         jButtonGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -272,10 +221,10 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                     .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(267, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextNombreUsuario)
@@ -285,12 +234,12 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                     .addComponent(jTextContrasenia)
                     .addComponent(jLabelRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextRol, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(255, 255, 255))
+                .addGap(180, 180, 180))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
                 .addComponent(jLabelNombre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -306,7 +255,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabelRol, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextRol, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -322,6 +271,86 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
         jTabbedEnergias.addTab("Gestion de usuarios", jPanel2);
 
+        jButton1.setText("Ir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Consulta Producción total Energia Renovable");
+
+        jButton2.setText("Ir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Consumo a nivel global");
+
+        jLabel3.setText("Tendencia de la capacidad instalada");
+
+        jLabel4.setText(" de energia solar a lo largo de los años");
+
+        jButton3.setText("Ir");
+        jButton3.setToolTipText("");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel1)
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(127, 127, 127)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(130, 130, 130)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(150, 150, 150)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(241, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(81, 81, 81)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton3)
+                .addContainerGap(327, Short.MAX_VALUE))
+        );
+
+        jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -334,16 +363,11 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedEnergias, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTabbedEnergias)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedEnergias))
+            .addComponent(jTabbedEnergias)
         );
 
         pack();
@@ -363,8 +387,8 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextEmailActionPerformed
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
-       
-agregar();
+
+        agregar();
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jButtonGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGuardarMouseClicked
@@ -372,40 +396,47 @@ agregar();
     }//GEN-LAST:event_jButtonGuardarMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      ConsultaUno mi_ConsultaUno = new ConsultaUno();
-      mi_ConsultaUno.setVisible(true);
-      this.setVisible(false);
-              
+        ConsultaUno mi_ConsultaUno = new ConsultaUno();
+        mi_ConsultaUno.setVisible(true);
+        this.setVisible(false);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ConsultaCinco mi_Consulta5 = new ConsultaCinco();
-      mi_Consulta5.setVisible(true);
-      this.setVisible(false);
+        mi_Consulta5.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        ConsultaTres mi_ConsultaTres = new ConsultaTres();
+        mi_ConsultaTres.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void agregar() {
-    String nombre = jTextNombreUsuario.getText().trim();
-    String email = jTextEmail.getText().trim();
-    String contrasenia = jTextContrasenia.getText().trim();
-    String rol = jTextRol.getText().trim();
+        String nombre = jTextNombreUsuario.getText().trim();
+        String email = jTextEmail.getText().trim();
+        String contrasenia = jTextContrasenia.getText().trim();
+        String rol = jTextRol.getText().trim();
 
-    // Input validation
-    if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || rol.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Input Error", JOptionPane.ERROR_MESSAGE);
-        return;
+        // Input validation
+        if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || rol.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Create a new Usuario object
+        Usuario usuario = new Usuario(0, nombre, email, contrasenia); // Use the rol field
+
+        try {
+            usuarioService.agregarUsuario(usuario);
+            JOptionPane.showMessageDialog(this, "Registro agregado");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error adding user: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    // Create a new Usuario object
-    Usuario usuario = new Usuario(0, nombre, email, contrasenia); // Use the rol field
-
-    try {
-        usuarioService.agregarUsuario(usuario);
-        JOptionPane.showMessageDialog(this, "Registro agregado");
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Error adding user: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
     /**
      * @param args the command line arguments
      */
@@ -421,12 +452,15 @@ agregar();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelContrasenia;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelNombre;

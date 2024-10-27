@@ -43,6 +43,7 @@ Repository\EnergiaRenovableRepository.class
 Vistas\ConsultaTres.class
 Vistas\PanelMenuPrincipal$8.class
 Vistas\ConsultaCinco$6.class
+Vistas\PanelMenuPrincipal$10.class
 Vistas\ConsultaUno$2.class
 Utils\Interfaces\IEnergiaRenovableService.class
 Vistas\PanelMenuPrincipal$6.class
