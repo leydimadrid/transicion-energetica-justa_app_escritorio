@@ -31,9 +31,4 @@ public class EnergiaRenovableController {
         return porcentajeConsumoElectricoTotalRegion;
 
     }
-
-    public List<EnergiaEolica> obtenerTop10PaisesEolica() {
-        List<EnergiaEolica> top10ProduccionEolica = _energiaRenovableService.obtenerTop10PaisesEolica();
-        return top10ProduccionEolica;
-    }
 }

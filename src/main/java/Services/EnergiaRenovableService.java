@@ -31,8 +31,4 @@ public class EnergiaRenovableService {
 
     }
 
-    public List<EnergiaEolica> obtenerTop10PaisesEolica() {
-        List<EnergiaEolica> top10ProduccionEolica = _energiaRenovableRepository.obtenerTop10PaisesEolica();
-        return top10ProduccionEolica;
-    }
 }
