@@ -20,7 +20,9 @@ C:\Andrea\NuevaRepo\src\main\java\Model\PlantaProduccion.java
 C:\Andrea\NuevaRepo\src\main\java\Model\Rol.java
 C:\Andrea\NuevaRepo\src\main\java\Utils\Interfaces\IEnergiaRenovable.java
 C:\Andrea\NuevaRepo\src\main\java\Model\Pais.java
+C:\Andrea\NuevaRepo\src\main\java\Model\Dtos\ProduccionEnergia.java
 C:\Andrea\NuevaRepo\src\main\java\Model\EnergiaEolica.java
+C:\Andrea\NuevaRepo\src\main\java\Controllers\NewClass.java
 C:\Andrea\NuevaRepo\src\main\java\Utils\Interfaces\IEnergiaRenovableRepository.java
 C:\Andrea\NuevaRepo\src\main\java\Model\EnergiaSolar.java
 C:\Andrea\NuevaRepo\src\main\java\Utils\Interfaces\IEnergiaRenovableService.java

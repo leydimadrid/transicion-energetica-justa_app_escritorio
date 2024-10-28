@@ -1,6 +1,8 @@
 package Services;
 
+import Model.Dtos.ProduccionEnergia;
 import Repository.EnergiaRenovableRepository;
+import java.util.List;
 
 
 public class EnergiaRenovableService {
@@ -15,8 +17,8 @@ public class EnergiaRenovableService {
     }
 
 
-    public String obtenerProduccionTotalEnergia(String fuente, String anio) {
-        String produccionTotalEnergia = _energiaRenovableRepository.obtenerProduccionTotalEnergia(fuente, anio);
+    public List<ProduccionEnergia> obtenerProduccionTotalEnergia(String fuente, int anio)  {
+        List<ProduccionEnergia>  produccionTotalEnergia = _energiaRenovableRepository.obtenerProduccionTotalEnergia(fuente, anio);
         return produccionTotalEnergia;
     }
 
