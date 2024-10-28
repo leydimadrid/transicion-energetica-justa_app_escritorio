@@ -5,6 +5,7 @@
 package Controllers;
 
 import Model.Dtos.ProduccionEnergia;
+import Model.EnergiaEolica;
 import Model.PlantaProduccion;
 import Repository.EnergiaRenovableRepository;
 import Repository.UsuarioRepository;
@@ -26,7 +27,16 @@ public class NewClass {
               List<ProduccionEnergia>  listenergiasRenovables = energiaController.obtenerProduccionTotalEnergia("Eólica", 2023);
               
               List<ProduccionEnergia>  listenergiasRenovablese = listenergiasRenovables;
-              
-              
-    }
+
+            System.out.println("\n----Obtener los 10 países con mayor producción de energía eólica en un año específico----\n");
+            List<EnergiaEolica> topPaisesEolica = energiaController.obtenerTop10PaisesEolica(2022);
+            for (EnergiaEolica energia : topPaisesEolica) {
+                System.out.println("País: " + energia.getNombreFuente());
+                System.out.println("Año: " + energia.getAnio());
+                System.out.println("Producción total: " + energia.getCapacidadRotor());
+                System.out.println("-------------------------");
+            }
+
+
+        }
 }

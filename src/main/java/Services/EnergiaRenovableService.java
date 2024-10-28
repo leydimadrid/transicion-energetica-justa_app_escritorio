@@ -1,7 +1,9 @@
 package Services;
 
 import Model.Dtos.ProduccionEnergia;
+import Model.EnergiaEolica;
 import Repository.EnergiaRenovableRepository;
+
 import java.util.List;
 
 
@@ -17,8 +19,8 @@ public class EnergiaRenovableService {
     }
 
 
-    public List<ProduccionEnergia> obtenerProduccionTotalEnergia(String fuente, int anio)  {
-        List<ProduccionEnergia>  produccionTotalEnergia = _energiaRenovableRepository.obtenerProduccionTotalEnergia(fuente, anio);
+    public List<ProduccionEnergia> obtenerProduccionTotalEnergia(String fuente, int anio) {
+        List<ProduccionEnergia> produccionTotalEnergia = _energiaRenovableRepository.obtenerProduccionTotalEnergia(fuente, anio);
         return produccionTotalEnergia;
     }
 
@@ -27,6 +29,9 @@ public class EnergiaRenovableService {
 
         String porcentajeConsumoElectricoTotalRegion = _energiaRenovableRepository.obtenerPorcentajeConsumoElectricoTotalRegion(fuente, anio);
         return porcentajeConsumoElectricoTotalRegion;
+    }
 
+    public List<EnergiaEolica> obtenerTop10PaisesEolica(int anio) {
+        return _energiaRenovableRepository.obtenerTop10PaisesEolica(anio);
     }
 }

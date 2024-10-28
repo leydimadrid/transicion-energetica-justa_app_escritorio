@@ -5,7 +5,6 @@
 package Model.Dtos;
 
 /**
- *
  * @author MI PC
  */
 public class ProduccionEnergia {

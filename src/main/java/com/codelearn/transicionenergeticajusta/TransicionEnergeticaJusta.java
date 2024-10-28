@@ -3,10 +3,13 @@
  */
 package com.codelearn.transicionenergeticajusta;
 
+import Model.EnergiaEolica;
+import Services.EnergiaRenovableService;
 import Vistas.VistaPrincipal;
 
+import java.util.List;
+
 /**
- *
  * @author MI PC
  */
 public class TransicionEnergeticaJusta {
