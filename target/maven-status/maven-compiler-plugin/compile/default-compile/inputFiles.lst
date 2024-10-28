@@ -1,9 +1,11 @@
 C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\com\codelearn\transicionenergeticajusta\TransicionEnergeticaJusta.java
 C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\ConfigBD\ConexionSql.java
 C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Controllers\EnergiaRenovableController.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Controllers\NewClass.java
 C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Controllers\UsuarioController.java
 C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\Biomasa.java
 C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\Dtos\Ejemplo.java
+C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\Dtos\ProduccionEnergia.java
 C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\EnergiaEolica.java
 C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\EnergiaGeotermica.java
 C:\Programacion_Talento_Tech\proyecto\transicion-energetica-justa_app_escritorio\src\main\java\Model\EnergiaHidraulica.java

@@ -1,19 +1,32 @@
 package Model;
 
+import java.time.LocalDate;
+
 public class EnergiaEolica extends EnergiaRenovable {
     private double capacidadRotor;
     private int cantidadRotores;
     private double velocidadViento;
+    private int anio;
 
 
     public EnergiaEolica() {
     }
 
-    public EnergiaEolica(String nombreFuente, double capacidadRotor, int cantidadRotores, double velocidadViento) {
+    public EnergiaEolica(String nombreFuente, double capacidadRotor, int cantidadRotores, double velocidadViento, int anio) {
         super(nombreFuente);
         this.capacidadRotor = capacidadRotor;
         this.cantidadRotores = cantidadRotores;
         this.velocidadViento = velocidadViento;
+        this.anio = anio;
+    }
+
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
     }
 
     public double getCapacidadRotor() {
@@ -40,13 +53,4 @@ public class EnergiaEolica extends EnergiaRenovable {
         this.velocidadViento = velocidadViento;
     }
 
-    @Override
-    public String toString() {
-        return "EnergiaEolica{" +
-                "capacidadRotor=" + capacidadRotor +
-                ", cantidadRotores=" + cantidadRotores +
-                ", velocidadViento=" + velocidadViento +
-                ", nombreFuente='" + nombreFuente + '\'' +
-                '}';
-    }
 }
