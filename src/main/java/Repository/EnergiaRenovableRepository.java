@@ -5,6 +5,8 @@
 package Repository;
 
 import ConfigBD.ConexionSql;
+import Model.EnergiaEolica;
+import Model.Rol;
 import Model.Usuario;
 
 import java.sql.Connection;
@@ -33,4 +35,41 @@ public class EnergiaRenovableRepository {
     public String obtenerPorcentajeConsumoElectricoTotalRegion(String fuente, String anio) {
         return fuente + anio;
     }
-}
+
+    public List<EnergiaEolica> obtenerTop10PaisesEolica () {
+        List<EnergiaEolica> energiaEolica = new ArrayList<>();
+        Connection conn = null;
+          try {
+
+            conn = conexion.conectar();
+
+
+            // Crear la consulta SQL
+            String sql = "SELECT pais, produccion_eolica " +
+                         "FROM produccion_energia " +
+                         "WHERE anio = ? " +
+                         "ORDER BY produccion_eolica DESC " +
+                         "LIMIT 10";
+
+            // Crear el statement
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, 2023); // Cambiar el año según sea necesario
+
+            // Ejecutar la consulta
+            ResultSet rs = ps.executeQuery();
+
+            // Mostrar los resultados en consola
+            while (rs.next()) {
+                String pais = rs.getString("pais");
+                int produccionEolica = rs.getInt("produccion_eolica");
+                System.out.println("País: " + pais + " - Producción Eólica: " + produccionEolica);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            // Cerrar recursos
+            conexion.cerrarConexion(conn);
+        }
+        return energiaEolica;
+    }}
+    

@@ -3,7 +3,10 @@
  */
 package com.codelearn.transicionenergeticajusta;
 
+import Model.EnergiaEolica;
+import Services.EnergiaRenovableService;
 import Vistas.VistaPrincipal;
+import java.util.List;
 
 /**
  *
@@ -17,5 +20,8 @@ public class TransicionEnergeticaJusta {
         vistaPrincipal.setLocationRelativeTo(null);
         vistaPrincipal.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         vistaPrincipal.setVisible(true);
+
+       EnergiaRenovableService service = new EnergiaRenovableService();
+        List<EnergiaEolica> top10Paises = service.obtenerTop10PaisesEolica();
     }
 }

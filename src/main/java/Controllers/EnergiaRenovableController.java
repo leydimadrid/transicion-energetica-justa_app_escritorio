@@ -1,6 +1,9 @@
 package Controllers;
 
+import Model.EnergiaEolica;
 import Services.EnergiaRenovableService;
+
+import java.util.List;
 
 
 public class EnergiaRenovableController {
@@ -27,5 +30,10 @@ public class EnergiaRenovableController {
         String porcentajeConsumoElectricoTotalRegion = _energiaRenovableService.obtenerPorcentajeConsumoElectricoTotalRegion(tipoEnergia, anio);
         return porcentajeConsumoElectricoTotalRegion;
 
+    }
+
+    public List<EnergiaEolica> obtenerTop10PaisesEolica() {
+        List<EnergiaEolica> top10ProduccionEolica = _energiaRenovableService.obtenerTop10PaisesEolica();
+        return top10ProduccionEolica;
     }
 }
