@@ -1,5 +1,6 @@
 package Controllers;
 
+import Model.Dtos.CapacidadInstaladaSolar;
 import Model.Dtos.ProduccionEnergia;
 import Model.EnergiaEolica;
 import Services.EnergiaRenovableService;
@@ -26,16 +27,25 @@ public class EnergiaRenovableController {
         return produccionTotalEnergia;
     }
 
-    public String obtenerPorcentajeConsumoElectricoTotalRegion(String tipoEnergia, String anio) {
+    /*
+    *Calcular el porcentaje de energía renovable en el consumo eléctrico total de cada región.
+     */
+    public String obtenerPorcentajeConsumoElectricoTotalRegion() {
 
-        String porcentajeConsumoElectricoTotalRegion = _energiaRenovableService.obtenerPorcentajeConsumoElectricoTotalRegion(tipoEnergia, anio);
+        String porcentajeConsumoElectricoTotalRegion = _energiaRenovableService.obtenerPorcentajeConsumoElectricoTotalRegion();
         return porcentajeConsumoElectricoTotalRegion;
     }
 
+    /*
+    Obtener la tendencia de la capacidad instalada de energía solar a lo largo de los años.*/
+    public List<CapacidadInstaladaSolar> obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios() {
+
+        return _energiaRenovableService.obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios();
+      
+    }
 
     public List<EnergiaEolica> obtenerTop10PaisesEolica(int anio) {
         return _energiaRenovableService.obtenerTop10PaisesEolica(anio);
     }
-
 
 }
