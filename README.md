@@ -1,1 +1,0 @@
-# transicion-energetica-justa_app_escritorio

@@ -1,0 +1,21 @@
+# Archivos y carpetas del IDE
+.idea/
+nbproject/
+*.iml
+
+# Archivos y carpetas de compilación
+target/
+out/
+build/
+
+# Archivos generados por el sistema
+*.class
+*.log
+*.jar
+*.war
+*.ear
+
+# Configuración específica de sistema operativo
+.DS_Store
+Thumbs.db
+
