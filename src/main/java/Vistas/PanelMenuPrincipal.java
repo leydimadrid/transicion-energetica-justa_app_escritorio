@@ -6,6 +6,7 @@ package Vistas;
 
 import Controllers.EnergiaRenovableController;
 import Controllers.UsuarioController;
+import Model.Rol;
 import Model.Usuario;
 import Repository.EnergiaRenovableRepository;
 import Repository.UsuarioRepository;
@@ -13,12 +14,16 @@ import Services.EnergiaRenovableService;
 import Services.UsuarioService;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.List;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,6 +34,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     private UsuarioController usuarioController;
     private UsuarioService usuarioService;
     private DefaultTableModel tableModel;
+    long idUser = 0;
 
     /**
      * Creates new form PanelMenuPrincipal
@@ -36,16 +42,39 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     public PanelMenuPrincipal() {
         initComponents();
         usuarioService = new UsuarioService();
-        inicializarTabla();
-
         usuarioController = new UsuarioController();
-
         this.setVisible(true);
         setLocationRelativeTo(null);
         this.setResizable(false);
+        inicializarTablaUsuario();
+        icicializarComboboxRol();
+        setFuentes();
+        jButtonEliminar.setEnabled(false);
+        inicializaSpinner();
 
+    }
+
+    private void icicializarComboboxRol() {
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
+
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+
+        UsuarioController usuarioController = new UsuarioController(usuarioService);
+
+        List<Rol> listRoles = usuarioController.obtenerListaRol();
+
+        for (Rol rol : listRoles) {
+            jComboBoxRol.addItem(rol.getNombre());
+        }
+
+    }
+
+    private void inicializaSpinner() {
+        spinner.setVisible(false);
+    }
+
+    private void setFuentes() {
         jTableUsuarios.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 16));
-
         jTableUsuarios.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 16));
 
         jLabelNombre.setFont(new Font(jLabelNombre.getFont().getName(), Font.PLAIN, 16));
@@ -53,20 +82,24 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jLabelEmail.setFont(new Font(jLabelEmail.getFont().getName(), Font.PLAIN, 16));
         jLabelRol.setFont(new Font(jLabelRol.getFont().getName(), Font.PLAIN, 16));
 
+        jTextNombreUsuario.setFont(new Font(jTextNombreUsuario.getFont().getName(), Font.PLAIN, 16));
+        jTextContrasenia.setFont(new Font(jTextContrasenia.getFont().getName(), Font.PLAIN, 16));
+        jTextEmail.setFont(new Font(jTextEmail.getFont().getName(), Font.PLAIN, 16));
+        jComboBoxRol.setFont(new Font(jComboBoxRol.getFont().getName(), Font.PLAIN, 16));
+
         jTabbedEnergias.setFont(new Font(jTabbedEnergias.getFont().getName(), Font.PLAIN, 16));
         jTableUsuarios.setFont(new Font(jTableUsuarios.getFont().getName(), Font.PLAIN, 16));
 
         jButtonGuardar.setFont(new Font(jButtonGuardar.getFont().getName(), Font.PLAIN, 16));
         jButtonBuscar.setFont(new Font(jButtonBuscar.getFont().getName(), Font.PLAIN, 16));
         jButtonEliminar.setFont(new Font(jButtonEliminar.getFont().getName(), Font.PLAIN, 16));
-        jButtonModificar.setFont(new Font(jButtonModificar.getFont().getName(), Font.PLAIN, 16));
-
+        jButtonActualizar.setFont(new Font(jButtonActualizar.getFont().getName(), Font.PLAIN, 16));
     }
 
-    private void inicializarTabla() {
+    private void inicializarTablaUsuario() {
         tableModel = (DefaultTableModel) jTableUsuarios.getModel();
 
-        jTableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTableUsuarios.getColumnModel().getColumn(0).setPreferredWidth(20);
         jTableUsuarios.getColumnModel().getColumn(1).setPreferredWidth(150);
         jTableUsuarios.getColumnModel().getColumn(2).setPreferredWidth(200);
         jTableUsuarios.getColumnModel().getColumn(3).setPreferredWidth(100);
@@ -77,23 +110,13 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
         EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaService);
 
-        UsuarioRepository usuarioRepository = new UsuarioRepository();
+        cargarUsuariosEnTabla();
 
-        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
-
-        UsuarioController usuarioController = new UsuarioController(usuarioService);
-
-        List<Usuario> listUsuarios = usuarioController.obtenerUsuarios();
-
-        tableModel.setRowCount(0);
-        for (Usuario usuario : listUsuarios) {
-            tableModel.addRow(new Object[]{
-                usuario.getId(),
-                usuario.getNombre(),
-                usuario.getEmail(),
-                usuario.getRol()
-            });
-        }
+        jTableUsuarios.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && jTableUsuarios.getSelectedRow() != -1) {
+                cargarDatosUsuarioSeleccionado();
+            }
+        });
 
     }
 
@@ -107,10 +130,13 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedEnergias = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        JBConsultaUno = new javax.swing.JButton();
+        JBConsultaTres = new javax.swing.JButton();
+        JBConsultaCinco = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jButtonGuardar = new javax.swing.JButton();
         jButtonBuscar = new javax.swing.JButton();
-        jButtonModificar = new javax.swing.JButton();
+        jButtonActualizar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
         jLabelNombre = new javax.swing.JLabel();
         jTextNombreUsuario = new javax.swing.JTextField();
@@ -119,34 +145,68 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jLabelContrasenia = new javax.swing.JLabel();
         jTextContrasenia = new javax.swing.JTextField();
         jLabelRol = new javax.swing.JLabel();
-        jTextRol = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        JtablaUsuarios = new javax.swing.JScrollPane();
         jTableUsuarios = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        jButtonGuardar = new javax.swing.JButton();
+        jComboBoxRol = new javax.swing.JComboBox<>();
+        spinner = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocationByPlatform(true);
 
-        jButtonGuardar.setText("Guardar");
-        jButtonGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonGuardarMouseClicked(evt);
-            }
-        });
-        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+        JBConsultaUno.setText("ConsultaUno");
+        JBConsultaUno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarActionPerformed(evt);
+                JBConsultaUnoActionPerformed(evt);
             }
         });
+
+        JBConsultaTres.setText("ConsultaTres");
+        JBConsultaTres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBConsultaTresActionPerformed(evt);
+            }
+        });
+
+        JBConsultaCinco.setText("ConsultaCicno");
+        JBConsultaCinco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBConsultaCincoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(284, 284, 284)
+                        .addComponent(JBConsultaCinco))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(JBConsultaUno)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
+                        .addComponent(JBConsultaTres)))
+                .addGap(216, 216, 216))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JBConsultaUno)
+                    .addComponent(JBConsultaTres))
+                .addGap(174, 174, 174)
+                .addComponent(JBConsultaCinco)
+                .addContainerGap(315, Short.MAX_VALUE))
+        );
+
+        jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);
 
         jButtonBuscar.setText("Buscar");
         jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -155,16 +215,23 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButtonModificar.setText("Modificar");
-        jButtonModificar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonActualizar.setText("Actualizar");
+        jButtonActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonModificarActionPerformed(evt);
+                jButtonActualizarActionPerformed(evt);
             }
         });
 
         jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
 
         jLabelNombre.setText("Nombre");
+
+        jTextNombreUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jLabelEmail.setText("E-mail");
 
@@ -178,6 +245,9 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
         jLabelRol.setText("Rol");
 
+        JtablaUsuarios.setToolTipText("");
+
+        jTableUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jTableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -201,30 +271,37 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTableUsuarios);
+        jTableUsuarios.setAlignmentX(0.8F);
+        jTableUsuarios.setAlignmentY(0.8F);
+        jTableUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jTableUsuarios.setName(""); // NOI18N
+        jTableUsuarios.setRowHeight(25);
+        JtablaUsuarios.setViewportView(jTableUsuarios);
         if (jTableUsuarios.getColumnModel().getColumnCount() > 0) {
             jTableUsuarios.getColumnModel().getColumn(0).setResizable(false);
             jTableUsuarios.getColumnModel().getColumn(1).setResizable(false);
             jTableUsuarios.getColumnModel().getColumn(2).setResizable(false);
             jTableUsuarios.getColumnModel().getColumn(3).setResizable(false);
         }
+        jTableUsuarios.getAccessibleContext().setAccessibleName("");
+
+        jButtonGuardar.setText("Guardar");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(59, 59, 59)
+                .addComponent(JtablaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(74, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(90, 90, 90)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextNombreUsuario)
@@ -233,123 +310,53 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabelContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextContrasenia)
                     .addComponent(jLabelRol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextRol, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(180, 180, 180))
+                    .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(29, 29, 29)
                 .addComponent(jLabelNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelEmail)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelContrasenia)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelRol, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextRol, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
+                        .addComponent(jLabelEmail)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabelContrasenia)
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabelRol, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addComponent(JtablaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
 
         jTabbedEnergias.addTab("Gestion de usuarios", jPanel2);
-
-        jButton1.setText("Ir");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Consulta Producción total Energia Renovable");
-
-        jButton2.setText("Ir");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Consumo a nivel global");
-
-        jLabel3.setText("Tendencia de la capacidad instalada");
-
-        jLabel4.setText(" de energia solar a lo largo de los años");
-
-        jButton3.setText("Ir");
-        jButton3.setToolTipText("");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel1)
-                        .addGap(87, 87, 87)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(127, 127, 127)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(130, 130, 130)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(150, 150, 150)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(241, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(81, 81, 81)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addContainerGap(327, Short.MAX_VALUE))
-        );
-
-        jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -363,78 +370,293 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedEnergias)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedEnergias)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedEnergias)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedEnergias))
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        // TODO add your handling code here:
+        buscarByEmail();
+
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
-    private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonModificarActionPerformed
+    private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
+        actualizarUsuario();
+    }//GEN-LAST:event_jButtonActualizarActionPerformed
 
     private void jTextEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextEmailActionPerformed
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
-
-        agregar();
+        agregarUsuario();
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
-    private void jButtonGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGuardarMouseClicked
-        agregar();
-    }//GEN-LAST:event_jButtonGuardarMouseClicked
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        eliminarUsuarioById();
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ConsultaUno mi_ConsultaUno = new ConsultaUno();
-        mi_ConsultaUno.setVisible(true);
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    private void JBConsultaUnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBConsultaUnoActionPerformed
+
+        //ConsultaUno Consulta1 = new ConsultaUno();
         this.setVisible(false);
+        ConsultaUno mi_Consulta1 = new ConsultaUno();
+        mi_Consulta1.setVisible(true);
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_JBConsultaUnoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void JBConsultaTresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBConsultaTresActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        ConsultaTres mi_Consulta3 = new ConsultaTres();
+        mi_Consulta3.setVisible(true);
+        
+    }//GEN-LAST:event_JBConsultaTresActionPerformed
+
+    private void JBConsultaCincoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBConsultaCincoActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
         ConsultaCinco mi_Consulta5 = new ConsultaCinco();
         mi_Consulta5.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_JBConsultaCincoActionPerformed
+    private void eliminarUsuarioById() {
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este usuario?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ConsultaTres mi_ConsultaTres = new ConsultaTres();
-        mi_ConsultaTres.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        if (confirmacion == JOptionPane.NO_OPTION) {
+            return;
+        }
+        spinner.setVisible(true);
 
-    private void agregar() {
-        String nombre = jTextNombreUsuario.getText().trim();
+        SwingWorker<Usuario, Void> worker = new SwingWorker<>() {
+            private Usuario usuarioEliminado;
+
+            @Override
+            protected Usuario doInBackground() throws Exception {
+                UsuarioRepository usuarioRepository = new UsuarioRepository();
+                UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+                UsuarioController usuarioController = new UsuarioController(usuarioService);
+                return usuarioController.eliminarUsuarioById(idUser);
+            }
+
+            @Override
+            protected void done() {
+                spinner.setVisible(false);
+
+                try {
+                    usuarioEliminado = get();
+
+                    if (usuarioEliminado != null) {
+                        JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente:\nEmail: " + usuarioEliminado.getEmail(), "Eliminación exitosa", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El usuario no existe o el ID es incorrecto.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    cargarUsuariosEnTabla();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error durante la eliminación.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        };
+        worker.execute();
+    }
+
+    private void buscarByEmail() {
+        spinner.setVisible(true);
         String email = jTextEmail.getText().trim();
-        String contrasenia = jTextContrasenia.getText().trim();
-        String rol = jTextRol.getText().trim();
-
-        // Input validation
-        if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || rol.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar el Email que deseas buscar", "Input Error", JOptionPane.ERROR_MESSAGE);
+            spinner.setVisible(false);
             return;
         }
 
-        // Create a new Usuario object
-        Usuario usuario = new Usuario(0, nombre, email, contrasenia); // Use the rol field
+        SwingWorker<Usuario, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Usuario doInBackground() throws Exception {
+                UsuarioRepository usuarioRepository = new UsuarioRepository();
+                UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+                UsuarioController usuarioController = new UsuarioController(usuarioService);
+                return usuarioController.obtenerUsuarioByEmail(email);
+            }
 
-        try {
-            usuarioService.agregarUsuario(usuario);
-            JOptionPane.showMessageDialog(this, "Registro agregado");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error adding user: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            @Override
+            protected void done() {
+                try {
+                    Usuario usuario = get();
+
+                    if (usuario == null) {
+                        JOptionPane.showMessageDialog(null, "Usuario no encontrado: Email no existe o está mal escrito.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        // Rellenar los campos con los datos del usuario encontrado
+                        jTextNombreUsuario.setText(usuario.getNombre());
+                        jTextEmail.setText(usuario.getEmail());
+                        jTextContrasenia.setText(usuario.getContrasenia());
+                        jComboBoxRol.setSelectedItem(usuario.getRol().getNombre());
+                        jButtonEliminar.setEnabled(true);
+                        idUser = usuario.getId();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    spinner.setVisible(false);
+                }
+            }
+        };
+
+        worker.execute();
+    }
+
+    private void cargarUsuariosEnTabla() {
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
+
+        UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+
+        UsuarioController usuarioController = new UsuarioController(usuarioService);
+
+        List<Usuario> listUsuarios = usuarioController.obtenerUsuarios();
+
+        tableModel.setRowCount(0);
+
+        for (Usuario usuario : listUsuarios) {
+            tableModel.addRow(new Object[]{
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getRol().getNombre()
+            });
         }
+    }
+
+    private void cargarDatosUsuarioSeleccionado() {
+        int filaSeleccionada = jTableUsuarios.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            idUser = (long) jTableUsuarios.getValueAt(filaSeleccionada, 0);
+            String nombre = jTableUsuarios.getValueAt(filaSeleccionada, 1).toString();
+            String email = jTableUsuarios.getValueAt(filaSeleccionada, 2).toString();
+            String rol = jTableUsuarios.getValueAt(filaSeleccionada, 3).toString();
+            jComboBoxRol.setSelectedItem(rol);
+            jTextNombreUsuario.setText(nombre);
+            jTextEmail.setText(email);
+        }
+        jButtonEliminar.setEnabled(true);
+    }
+
+    private void agregarUsuario() {
+
+        spinner.setVisible(true);
+
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                UsuarioRepository usuarioRepository = new UsuarioRepository();
+                UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+                UsuarioController usuarioController = new UsuarioController(usuarioService);
+
+                String nombre = jTextNombreUsuario.getText().trim();
+                String email = jTextEmail.getText().trim();
+                String contrasenia = jTextContrasenia.getText().trim();
+                String nombreRol = (String) jComboBoxRol.getSelectedItem();
+
+                if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || nombreRol.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Complete todos los campos por favor", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+
+                Rol rol = new Rol();
+                rol.setNombre(nombreRol);
+
+                Usuario usuario = new Usuario(0, nombre, email, contrasenia, rol);
+
+                usuarioController.agregarUsuario(usuario);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    cargarUsuariosEnTabla();
+                    JOptionPane.showMessageDialog(null, "Registro agregado");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    // Ocultar el spinner
+                    spinner.setVisible(false);
+                }
+            }
+        };
+
+        worker.execute();
+    }
+
+    private void actualizarUsuario() {
+        // Mostrar el spinner antes de ejecutar la tarea
+        spinner.setVisible(true);
+
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                UsuarioRepository usuarioRepository = new UsuarioRepository();
+                UsuarioService usuarioService = new UsuarioService(usuarioRepository);
+                UsuarioController usuarioController = new UsuarioController(usuarioService);
+
+                // Obtener datos de los campos
+                String nombre = jTextNombreUsuario.getText().trim();
+                String email = jTextEmail.getText().trim();
+                String contrasenia = jTextContrasenia.getText().trim();
+                String nombreRol = (String) jComboBoxRol.getSelectedItem();
+
+                // Validación de campos
+                if (nombre.isEmpty() || email.isEmpty() || contrasenia.isEmpty() || nombreRol.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Complete todos los campos por favor", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return null;
+                }
+
+                // Crear el objeto Rol y Usuario con los datos obtenidos
+                Rol rol = new Rol();
+                rol.setNombre(nombreRol);
+                rol.setId(1);  // Aquí debes establecer el ID adecuado para el rol
+
+                Usuario usuario = new Usuario();
+                usuario.setId(idUser);
+                usuario.setNombre(nombre);
+                usuario.setEmail(email);
+                usuario.setContrasenia(contrasenia);
+                usuario.setRol(rol);
+
+                // Llamada al controlador para actualizar el usuario
+                usuarioController.actualizarUsuario(usuario);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    // Actualizar la tabla y mostrar mensaje de éxito si no hubo excepciones
+                    cargarUsuariosEnTabla();
+                    JOptionPane.showMessageDialog(null, "Usuario actualizado correctamente.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error al actualizar usuario: " + e.getMessage());
+                } finally {
+                    // Ocultar el spinner
+                    spinner.setVisible(false);
+                }
+            }
+        };
+
+        // Ejecutar el worker en segundo plano
+        worker.execute();
     }
 
     /**
@@ -450,17 +672,15 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton JBConsultaCinco;
+    private javax.swing.JButton JBConsultaTres;
+    private javax.swing.JButton JBConsultaUno;
+    private javax.swing.JScrollPane JtablaUsuarios;
+    private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
-    private javax.swing.JButton jButtonModificar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JComboBox<String> jComboBoxRol;
     private javax.swing.JLabel jLabelContrasenia;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelNombre;
@@ -470,12 +690,11 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedEnergias;
     private javax.swing.JTable jTableUsuarios;
     private javax.swing.JTextField jTextContrasenia;
     private javax.swing.JTextField jTextEmail;
     private javax.swing.JTextField jTextNombreUsuario;
-    private javax.swing.JTextField jTextRol;
+    private javax.swing.JLabel spinner;
     // End of variables declaration//GEN-END:variables
 }

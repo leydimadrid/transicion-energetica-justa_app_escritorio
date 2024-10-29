@@ -2,21 +2,32 @@ package Model;
 
 public class Usuario {
 
-
     private long id;
     private String nombre;
     private String email;
     private String contrasenia;
-    private String rol;
+    private Rol rol;
+    
+    public Usuario() {   
+    }
 
-    public Usuario(int id, String nombre, String email, String rol) {
+    public Usuario(int id, String nombre, String email, String contrasenia, Rol rol) {
         this.id = id;
         this.nombre = nombre;
         this.contrasenia = contrasenia;
         this.email = email;
-        this.rol = rol ;
+        this.rol = rol;
 
     }
+
+    public Usuario(int id, String nombre, String email, Rol rol) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.rol = rol;
+    }
+
+    
 
     public long getId() {
         return id;
@@ -50,11 +61,11 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
 
-    public String getRol() {
+    public Rol getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
+    public void setRol(Rol rol) {
         this.rol = rol;
     }
 }

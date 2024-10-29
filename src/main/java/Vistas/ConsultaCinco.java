@@ -45,7 +45,7 @@ public class ConsultaCinco extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        valorBiomasa.setText("Ingrese valor");
+        valorBiomasa.setText("Ingrese consumo");
         valorBiomasa.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 valorBiomasaFocusGained(evt);
@@ -60,7 +60,7 @@ public class ConsultaCinco extends javax.swing.JFrame {
             }
         });
 
-        valorEolica.setText("Ingrese valor");
+        valorEolica.setText("Ingrese consumo");
         valorEolica.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 valorEolicaFocusGained(evt);
@@ -69,8 +69,13 @@ public class ConsultaCinco extends javax.swing.JFrame {
                 valorEolicaFocusLost(evt);
             }
         });
+        valorEolica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                valorEolicaActionPerformed(evt);
+            }
+        });
 
-        valorSolar.setText("Ingrese valor");
+        valorSolar.setText("Ingrese consumo");
         valorSolar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 valorSolarFocusGained(evt);
@@ -80,7 +85,7 @@ public class ConsultaCinco extends javax.swing.JFrame {
             }
         });
 
-        valorGeotermica.setText("Ingrese valor");
+        valorGeotermica.setText("Ingrese consumo");
         valorGeotermica.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 valorGeotermicaFocusGained(evt);
@@ -90,7 +95,7 @@ public class ConsultaCinco extends javax.swing.JFrame {
             }
         });
 
-        valorHidraulica.setText("Ingrese valor");
+        valorHidraulica.setText("Ingrese consumo");
         valorHidraulica.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 valorHidraulicaFocusGained(evt);
@@ -100,7 +105,7 @@ public class ConsultaCinco extends javax.swing.JFrame {
             }
         });
 
-        valorTermica.setText("Ingrese valor");
+        valorTermica.setText("Ingrese consumo");
         valorTermica.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 valorTermicaFocusGained(evt);
@@ -188,24 +193,24 @@ public class ConsultaCinco extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(61, 61, 61)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(valorSolar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(valorEolica, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(valorBiomasa, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(112, 112, 112)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(valorBiomasa)
+                            .addComponent(valorEolica)
+                            .addComponent(valorSolar))
+                        .addGap(99, 99, 99)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(61, 61, 61)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(valorHidraulica, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(valorGeotermica, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(valorTermica, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(valorGeotermica)
+                            .addComponent(valorHidraulica)
+                            .addComponent(valorTermica)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(353, 353, 353)
+                        .addGap(348, 348, 348)
                         .addComponent(jButton1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,11 +245,11 @@ public class ConsultaCinco extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(valorTermica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(47, 47, 47)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addGap(41, 41, 41)
+                .addGap(69, 69, 69)
                 .addComponent(JPanelGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -320,60 +325,60 @@ public class ConsultaCinco extends javax.swing.JFrame {
 
     private void valorTermicaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorTermicaFocusLost
         if (valorTermica.getText().isEmpty()) {
-            valorTermica.setText("Ingrese valor");
+            valorTermica.setText("Ingrese consumo");
         }
     }//GEN-LAST:event_valorTermicaFocusLost
 
     private void valorTermicaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorTermicaFocusGained
-        if (valorTermica.getText().equals("Ingrese valor")) {
+        if (valorTermica.getText().equals("Ingrese consumo")) {
             valorTermica.setText("");
         }
     }//GEN-LAST:event_valorTermicaFocusGained
 
     private void valorHidraulicaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorHidraulicaFocusLost
         if (valorHidraulica.getText().isEmpty()) {
-            valorHidraulica.setText("Ingrese valor");
+            valorHidraulica.setText("Ingrese consumo");
         }
     }//GEN-LAST:event_valorHidraulicaFocusLost
 
     private void valorHidraulicaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorHidraulicaFocusGained
-        if (valorHidraulica.getText().equals("Ingrese valor")) {
+        if (valorHidraulica.getText().equals("Ingrese consumo")) {
             valorHidraulica.setText("");
         }
     }//GEN-LAST:event_valorHidraulicaFocusGained
 
     private void valorGeotermicaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorGeotermicaFocusLost
         if (valorGeotermica.getText().isEmpty()) {
-            valorGeotermica.setText("Ingrese valor");
+            valorGeotermica.setText("Ingrese consumo");
         }
     }//GEN-LAST:event_valorGeotermicaFocusLost
 
     private void valorGeotermicaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorGeotermicaFocusGained
-        if (valorGeotermica.getText().equals("Ingrese valor")) {
+        if (valorGeotermica.getText().equals("Ingrese consumo")) {
             valorGeotermica.setText("");
         }
     }//GEN-LAST:event_valorGeotermicaFocusGained
 
     private void valorSolarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorSolarFocusLost
         if (valorSolar.getText().isEmpty()) {
-            valorSolar.setText("Ingrese valor");
+            valorSolar.setText("Ingrese consumo");
         }
     }//GEN-LAST:event_valorSolarFocusLost
 
     private void valorSolarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorSolarFocusGained
-        if (valorSolar.getText().equals("Ingrese valor")) {
+        if (valorSolar.getText().equals("Ingrese consumo")) {
             valorSolar.setText("");
         }
     }//GEN-LAST:event_valorSolarFocusGained
 
     private void valorEolicaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorEolicaFocusLost
         if (valorEolica.getText().isEmpty()) {
-            valorEolica.setText("Ingrese valor");
+            valorEolica.setText("Ingrese consumo");
         }
     }//GEN-LAST:event_valorEolicaFocusLost
 
     private void valorEolicaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorEolicaFocusGained
-        if (valorEolica.getText().equals("Ingrese valor")) {
+        if (valorEolica.getText().equals("Ingrese consumo")) {
             valorEolica.setText("");
         }
     }//GEN-LAST:event_valorEolicaFocusGained
@@ -384,16 +389,20 @@ public class ConsultaCinco extends javax.swing.JFrame {
 
     private void valorBiomasaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorBiomasaFocusLost
         if (valorBiomasa.getText().isEmpty()) {
-            valorBiomasa.setText("Ingrese valor");
+            valorBiomasa.setText("Ingrese consumo");
         }
     }//GEN-LAST:event_valorBiomasaFocusLost
 
     private void valorBiomasaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_valorBiomasaFocusGained
 
-        if (valorBiomasa.getText().equals("Ingrese valor")) {
+        if (valorBiomasa.getText().equals("Ingrese consumo")) {
             valorBiomasa.setText("");
         }
     }//GEN-LAST:event_valorBiomasaFocusGained
+
+    private void valorEolicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valorEolicaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_valorEolicaActionPerformed
 
     /**
      * @param args the command line arguments
