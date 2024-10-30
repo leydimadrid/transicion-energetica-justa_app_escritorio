@@ -6,6 +6,7 @@ import Model.EnergiaEolica;
 import Services.EnergiaRenovableService;
 
 import java.util.List;
+import java.util.Map;
 
 public class EnergiaRenovableController {
 
@@ -46,6 +47,10 @@ public class EnergiaRenovableController {
 
     public List<EnergiaEolica> obtenerTop10PaisesEolica(int anio) {
         return _energiaRenovableService.obtenerTop10PaisesEolica(anio);
+    }
+
+    public Map<String, Double> obtenerParticipacionConsumo() {
+        return _energiaRenovableService.obtenerParticipacionConsumo();
     }
 
 }

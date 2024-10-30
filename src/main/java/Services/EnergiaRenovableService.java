@@ -6,6 +6,7 @@ import Model.EnergiaEolica;
 import Repository.EnergiaRenovableRepository;
 
 import java.util.List;
+import java.util.Map;
 
 public class EnergiaRenovableService {
 
@@ -36,5 +37,9 @@ public class EnergiaRenovableService {
 
     public List<EnergiaEolica> obtenerTop10PaisesEolica(int anio) {
         return _energiaRenovableRepository.obtenerTop10PaisesEolica(anio);
+    }
+
+    public Map<String, Double> obtenerParticipacionConsumo() {
+        return _energiaRenovableRepository.obtenerParticipacionConsumo();
     }
 }
