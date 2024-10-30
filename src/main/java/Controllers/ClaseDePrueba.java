@@ -14,6 +14,7 @@ import Services.EnergiaRenovableService;
 import Services.UsuarioService;
 import Vistas.VistaPrincipal;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -43,6 +44,15 @@ public class ClaseDePrueba {
             System.out.println("País: " + energia.getNombreFuente());
             System.out.println("Año: " + energia.getAnio());
             System.out.println("Producción total: " + energia.getCapacidadRotor());
+            System.out.println("-------------------------");
+        }
+
+        /* Listar todas las fuentes de energía y su participación en el consumo eléctrico total a nivel global. */
+        Map<String, Double> consumo = energiaController.obtenerParticipacionConsumo();
+
+        System.out.println("\n----Participación en el consumo eléctrico por fuente de energía----\n");
+        for (Map.Entry<String, Double> entry : consumo.entrySet()) {
+            System.out.println("Fuente de energía: " + entry.getKey() + " - Consumo eléctrico: " + entry.getValue());
             System.out.println("-------------------------");
         }
 

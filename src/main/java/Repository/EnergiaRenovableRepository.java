@@ -16,7 +16,9 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EnergiaRenovableRepository {
 
@@ -195,4 +197,35 @@ public class EnergiaRenovableRepository {
         return energiaEolicaList;
     }
 
+    public Map<String, Double> obtenerParticipacionConsumo() {
+        Map<String, Double> consumoMap = new HashMap<>();
+        Connection conn = null;
+        try {
+            conn = conexion.conectar();
+            if (conn != null) {
+                String sql = "SELECT c.cantidad_consumida, e.nombre_fuente AS fuente_energia " +
+                        "FROM consumo c " +
+                        "JOIN energia_Renovable e ON c.energia_renovable_id = e.energia_renovable_id";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String fuente = rs.getString("fuente_energia");
+                    double consumo = rs.getDouble("cantidad_consumida");
+                    consumoMap.put(fuente, consumo);
+                }
+                rs.close();
+                ps.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrarConexion(conn);
+        }
+        return consumoMap;
+    }
+
+
+
 }
+
+
