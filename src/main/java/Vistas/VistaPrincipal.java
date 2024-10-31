@@ -251,7 +251,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         };
 
-        // Ejecuta el worker en segundo plano
         worker.execute();
 
     }                                               

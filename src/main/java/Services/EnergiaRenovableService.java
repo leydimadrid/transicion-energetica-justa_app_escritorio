@@ -1,7 +1,12 @@
 package Services;
 
+import Model.Dtos.CapacidadInstaladaSolar;
+import Model.Dtos.ProduccionEnergia;
+import Model.EnergiaEolica;
 import Repository.EnergiaRenovableRepository;
 
+import java.util.List;
+import java.util.Map;
 
 public class EnergiaRenovableService {
 
@@ -14,17 +19,27 @@ public class EnergiaRenovableService {
         this._energiaRenovableRepository = energiaRenovableRepository;
     }
 
-
-    public String obtenerProduccionTotalEnergia(String fuente, String anio) {
-        String produccionTotalEnergia = _energiaRenovableRepository.obtenerProduccionTotalEnergia(fuente, anio);
+    public List<ProduccionEnergia> obtenerProduccionTotalEnergia(String fuente, int anio) {
+        List<ProduccionEnergia> produccionTotalEnergia = _energiaRenovableRepository.obtenerProduccionTotalEnergia(fuente, anio);
         return produccionTotalEnergia;
     }
 
+    public String obtenerPorcentajeConsumoElectricoTotalRegion() {
 
-    public String obtenerPorcentajeConsumoElectricoTotalRegion(String fuente, String anio) {
-
-        String porcentajeConsumoElectricoTotalRegion = _energiaRenovableRepository.obtenerPorcentajeConsumoElectricoTotalRegion(fuente, anio);
+        String porcentajeConsumoElectricoTotalRegion = _energiaRenovableRepository.obtenerPorcentajeConsumoElectricoTotalRegion();
         return porcentajeConsumoElectricoTotalRegion;
+    }
 
+    public List<CapacidadInstaladaSolar> obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios() {
+
+        return  _energiaRenovableRepository.obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios();
+    }
+
+    public List<EnergiaEolica> obtenerTop10PaisesEolica(int anio) {
+        return _energiaRenovableRepository.obtenerTop10PaisesEolica(anio);
+    }
+
+    public Map<String, Double> obtenerParticipacionConsumo() {
+        return _energiaRenovableRepository.obtenerParticipacionConsumo();
     }
 }
