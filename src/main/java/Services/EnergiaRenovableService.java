@@ -21,18 +21,18 @@ public class EnergiaRenovableService {
     }
 
     public List<ProduccionEnergia> obtenerProduccionTotalEnergia(String fuente, int anio) {
-        List<ProduccionEnergia> produccionTotalEnergia = _energiaRenovableRepository.obtenerProduccionTotalEnergia(fuente, anio);
-        return produccionTotalEnergia;
+        return _energiaRenovableRepository.obtenerProduccionTotalEnergia(fuente, anio);
+
     }
 
     public List<ConsumoRegion> obtenerPorcentajeConsumoElectricoTotalRegion() {
 
-         return _energiaRenovableRepository.obtenerPorcentajeConsumoElectricoTotalRegion();
+        return _energiaRenovableRepository.obtenerPorcentajeConsumoElectricoTotalRegion();
     }
 
     public List<CapacidadInstaladaSolar> obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios() {
 
-        return  _energiaRenovableRepository.obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios();
+        return _energiaRenovableRepository.obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios();
     }
 
     public List<EnergiaEolica> obtenerTop10PaisesEolica(int anio) {
