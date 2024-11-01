@@ -1,6 +1,7 @@
 package Services;
 
 import Model.Dtos.CapacidadInstaladaSolar;
+import Model.Dtos.ConsumoRegion;
 import Model.Dtos.ProduccionEnergia;
 import Model.EnergiaEolica;
 import Repository.EnergiaRenovableRepository;
@@ -24,10 +25,9 @@ public class EnergiaRenovableService {
         return produccionTotalEnergia;
     }
 
-    public String obtenerPorcentajeConsumoElectricoTotalRegion() {
+    public List<ConsumoRegion> obtenerPorcentajeConsumoElectricoTotalRegion() {
 
-        String porcentajeConsumoElectricoTotalRegion = _energiaRenovableRepository.obtenerPorcentajeConsumoElectricoTotalRegion();
-        return porcentajeConsumoElectricoTotalRegion;
+         return _energiaRenovableRepository.obtenerPorcentajeConsumoElectricoTotalRegion();
     }
 
     public List<CapacidadInstaladaSolar> obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios() {

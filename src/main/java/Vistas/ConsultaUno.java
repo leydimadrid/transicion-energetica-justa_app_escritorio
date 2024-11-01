@@ -286,9 +286,9 @@ public class ConsultaUno extends javax.swing.JFrame {
         EnergiaRenovableController controller = new EnergiaRenovableController(energiaService);
 
         // Llamar al método del controlador para procesar la consulta
-        String res = controller.obtenerPorcentajeConsumoElectricoTotalRegion();
+        //String res = controller.obtenerPorcentajeConsumoElectricoTotalRegion();
 
-        jTextArea1.setText(res);
+        //jTextArea1.setText(res);
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
