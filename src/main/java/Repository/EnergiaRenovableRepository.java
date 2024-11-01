@@ -6,6 +6,7 @@ package Repository;
 
 import ConfigBD.ConexionSql;
 import Model.Dtos.CapacidadInstaladaSolar;
+import Model.Dtos.ConsumoRegion;
 import Model.Dtos.ProduccionEnergia;
 import Model.EnergiaEolica;
 import Model.Usuario;
@@ -72,9 +73,48 @@ public class EnergiaRenovableRepository {
         return produccionList;
     }
 
-    public String obtenerPorcentajeConsumoElectricoTotalRegion() {
-        return "";
+    public List<ConsumoRegion> obtenerPorcentajeConsumoElectricoTotalRegion() {
+        List<ConsumoRegion> listaConsumoRegion = new ArrayList<>();
+        Connection conn = null;
 
+        try {
+            conn = conexion.conectar();
+            if (conn != null) {
+                String sql = "SELECT "
+                        + "p.nombre AS Region, "
+                        + "COALESCE(SUM(c.cantidad_consumida), 0) AS consumo_total, "
+                        + "COALESCE(SUM(p2.disponibilidad_horas), 0) AS capacidad_instalada_energia_renovable, "
+                        + "(COALESCE(SUM(c.cantidad_consumida), 0) / NULLIF(SUM(p2.disponibilidad_horas), 0)) * 100 AS porcentaje_energia_renovable "
+                        + "FROM pais p "
+                        + "LEFT JOIN consumo c ON p.pais_id = c.pais_id "
+                        + "LEFT JOIN energia_renovable er ON c.energia_renovable_id = er.energia_renovable_id "
+                        + "LEFT JOIN (SELECT SUM(disponibilidad_horas) AS disponibilidad_horas FROM planta_produccion) p2 ON 1 = 1 "
+                        + "GROUP BY p.nombre "
+                        + "ORDER BY p.nombre";
+
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    String region = rs.getString("Region");
+                    double consumoTotal = rs.getDouble("consumo_total");
+                    double capacidadInstalada = rs.getDouble("capacidad_instalada_energia_renovable");
+                    double porcentajeEnergiaRenovable = rs.getDouble("porcentaje_energia_renovable");
+
+                    ConsumoRegion consumoRegion = new ConsumoRegion(region, consumoTotal, capacidadInstalada, porcentajeEnergiaRenovable);
+                    listaConsumoRegion.add(consumoRegion);
+                }
+
+                rs.close();
+                ps.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexion.cerrarConexion(conn);
+        }
+
+        return listaConsumoRegion;
     }
 
     public List<CapacidadInstaladaSolar> obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios() {
@@ -203,9 +243,9 @@ public class EnergiaRenovableRepository {
         try {
             conn = conexion.conectar();
             if (conn != null) {
-                String sql = "SELECT c.cantidad_consumida, e.nombre_fuente AS fuente_energia " +
-                        "FROM consumo c " +
-                        "JOIN energia_Renovable e ON c.energia_renovable_id = e.energia_renovable_id";
+                String sql = "SELECT c.cantidad_consumida, e.nombre_fuente AS fuente_energia "
+                        + "FROM consumo c "
+                        + "JOIN energia_Renovable e ON c.energia_renovable_id = e.energia_renovable_id";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
@@ -224,8 +264,4 @@ public class EnergiaRenovableRepository {
         return consumoMap;
     }
 
-
-
 }
-
-
