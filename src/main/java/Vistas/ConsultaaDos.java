@@ -2,13 +2,14 @@
 package Vistas;
 
 import Controllers.EnergiaRenovableController;
-import Model.EnergiaEolica;
+import Model.Dtos.ConsumoRegion;
 import Repository.EnergiaRenovableRepository;
 import Services.EnergiaRenovableService;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -16,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -23,18 +26,21 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *
  * @author Lenovo
  */
-public class ConsultaCuatro extends javax.swing.JFrame {
-    
-    private final EnergiaRenovableController energiaController;
-    
+public class ConsultaaDos extends javax.swing.JFrame {
 
-    public ConsultaCuatro() {
-        initComponents();
-        
+    private final EnergiaRenovableController energiaController;
+     
+    /**
+     * Creates new form ConsultaDos
+     */
+    
+    public ConsultaaDos() {
+        initComponents();  // Inicializa los componentes de la interfaz
         EnergiaRenovableRepository energiaRenovableRepository = new EnergiaRenovableRepository();
         EnergiaRenovableService energiaRenovableService = new EnergiaRenovableService(energiaRenovableRepository);
         this.energiaController = new EnergiaRenovableController(energiaRenovableService);
-        llenarComboBoxAnios();
+       
+        llenarComboBoxConPaises();
         personalizarComponentes();
         aplicarEstilosComunes(jButton2, jComboBox1, jTable1);
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -42,69 +48,98 @@ public class ConsultaCuatro extends javax.swing.JFrame {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             jButton2ActionPerformed(evt);
         }
-    });
+        });
     }
     
-    
-        private void llenarComboBoxAnios() {
-            DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>(); 
-            for (int año = 2020; año <= 2023; año++) { modelo.addElement(String.valueOf(año)); 
-            } 
-            jComboBox1.setModel(modelo); 
-        }
-        
-       private CategoryDataset obtenerDatosProduccionPorAño(int año) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        List<EnergiaEolica> topPaisesEolica = energiaController.obtenerTop10PaisesEolica(año);
-        for (EnergiaEolica energia : topPaisesEolica) {
-            dataset.addValue(energia.getCapacidadRotor(), "Producción", energia.getNombreFuente());
-        }
+    private void llenarComboBoxConPaises() {
+    jComboBox1.removeAllItems(); // Limpia el ComboBox antes de llenarlo
+    List<ConsumoRegion> datos = energiaController.obtenerPorcentajeConsumoElectricoTotalRegion();
+    for (ConsumoRegion dato : datos) {
+        jComboBox1.addItem(dato.getRegion());
+    }
+}
+
+     
+    private CategoryDataset obtenerDatosConsumoRegion(int region) {
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    List<ConsumoRegion> consumoRegion = energiaController.obtenerPorcentajeConsumoElectricoTotalRegion();
+    for (ConsumoRegion consumo : consumoRegion) {
+        dataset.addValue(consumo.getCapacidadInstaladaEnergiaRenovable(), "Producción", consumo.getRegion());
+    }
     return dataset;
 }
-       
-   // Método para actualizar la tabla según el año seleccionado
-   private void actualizarTabla(int año) {
-    // Definir las columnas de la tabla
-    String[] columnas = {"Año", "País", "Producción Eólica (MWh)"};
+
+
+    private void llenarTablaConDatosSegunPais() {
+    String[] columnas = {"País", "Consumo Total", "Producción renovable (MWh)", "Porcentaje energía renovable"};
+    String paisSeleccionado = (String) jComboBox1.getSelectedItem();
     
-    // Crear un modelo de tabla vacío
-    DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
-    List<EnergiaEolica> topPaisesEolica = energiaController.obtenerTop10PaisesEolica(año);
-    for (EnergiaEolica energia : topPaisesEolica) {
-        Object[] fila = {energia.getAnio(), energia.getNombreFuente(), energia.getCapacidadRotor()};
-        modeloTabla.addRow(fila);
+    if (paisSeleccionado == null || paisSeleccionado.isEmpty()) {
+        System.out.println("Por favor, seleccione un país.");
+        return;
     }
-
-    // Asignar el modelo de tabla actualizado a la tabla
-    jTable1.setModel(modeloTabla);
+    
+    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+    modelo.setRowCount(0);
+    
+    try {
+        List<ConsumoRegion> datos = energiaController.obtenerPorcentajeConsumoElectricoTotalRegion();
+        for (ConsumoRegion dato : datos) {
+            if (dato.getRegion().equals(paisSeleccionado)) {
+                modelo.addRow(new Object[]{dato.getRegion(), dato.getConsumoTotal(), dato.getCapacidadInstaladaEnergiaRenovable(),
+                    dato.getPorcentajeEnergiaRenovable()});
+            }
+        }
+    } catch (Exception e) {
+        System.err.println("Error al obtener datos: " + e.getMessage());
+    }
 }
-   
-        private void crearGrafico(int año) {
-        CategoryDataset dataset = obtenerDatosProduccionPorAño(año);
-        JFreeChart barChart = ChartFactory.createBarChart(
-                "Producción de Energía Eólica en " + año,
-                "País",
-                "Producción Eólica (MWh)",
-                dataset);
 
-        ChartPanel chartPanel = new ChartPanel(barChart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(400, 300));
-        
+private void mostrarGrafico() {
+    String paisSeleccionado = (String) jComboBox1.getSelectedItem();
+    List<ConsumoRegion> datos = energiaController.obtenerPorcentajeConsumoElectricoTotalRegion();
+    
+    if (datos != null && !datos.isEmpty()) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (ConsumoRegion dato : datos) {
+            if (dato.getRegion().equals(paisSeleccionado)) {
+                dataset.addValue(dato.getConsumoTotal(), "Consumo Total (kWh)", dato.getRegion());
+                dataset.addValue(dato.getCapacidadInstaladaEnergiaRenovable(), "Producción Renovable (kWh)", dato.getRegion());
+            }
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart(
+            "Consumo y Producción de Energía",
+            "País",
+            "Cantidad (kWh)",
+            dataset
+        );
+
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.getDomainAxis().setCategoryLabelPositions(
+            CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0)
+        );
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(800, 400));
         jPanel2.removeAll();
-        jPanel2.add(chartPanel);
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.add(chartPanel, BorderLayout.CENTER);
         jPanel2.revalidate();
         jPanel2.repaint();
+    } else {
+        System.out.println("No hay datos para mostrar el gráfico.");
     }
-        
-        private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // Obtener el año seleccionado en el JComboBox
-        int añoSeleccionado = Integer.parseInt(jComboBox1.getSelectedItem().toString());
-        crearGrafico(añoSeleccionado);
-        actualizarTabla(añoSeleccionado);// Generar el gráfico para el año seleccionado
+}
+
+
+   
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        llenarTablaConDatosSegunPais();
+        mostrarGrafico();
     }
-    
-      
-        
+
+
     private void personalizarComponentes() {
     Font fuenteBonita = new Font("Sans-Serif", Font.BOLD, 18); // Fuente sans-serif, negrita, tamaño 18
     Font fuenteBonitaDos = new Font("Sans.Serif", Font.BOLD, 13);
@@ -135,7 +170,6 @@ public class ConsultaCuatro extends javax.swing.JFrame {
     table.setRowHeight(20); // Altura de las filas
 }
 
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -159,53 +193,65 @@ public class ConsultaCuatro extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jButton1.setText("Atrás");
+        jButton1.setText("Atras");
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Top 10 países por producción de  energía eólica en año");
+        jLabel1.setText("Porcentaje de Energía Renovable en el Consumo Eléctrico Total por Región");
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText(" Seleccione el año:");
+        jLabel2.setText("Seleccionar país");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton2.setText("Buscar");
+        jButton2.setText("Calcular");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Año", "País", "Producción (MWh)"
+                "País", "Consumo Total", "Producción Renovable (kWh)", "Porcentaje Energía Renobable (%)"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 217, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(85, 85, 85)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(134, 134, 134)
                                 .addComponent(jLabel2)
-                                .addGap(32, 32, 32)
+                                .addGap(39, 39, 39)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(46, 46, 46)
+                                .addComponent(jButton1)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel1)))
-                        .addGap(0, 127, Short.MAX_VALUE)))
+                        .addGap(0, 55, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -220,22 +266,11 @@ public class ConsultaCuatro extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(175, 175, 175))
-        );
-
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 292, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -243,15 +278,10 @@ public class ConsultaCuatro extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -274,25 +304,20 @@ public class ConsultaCuatro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultaCuatro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultaaDos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultaCuatro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultaaDos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultaCuatro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultaaDos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultaCuatro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConsultaaDos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        EnergiaRenovableRepository energiaRenovableRepository = new EnergiaRenovableRepository();
-        EnergiaRenovableService energiaRenovableService = new EnergiaRenovableService(energiaRenovableRepository);
-        EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaRenovableService);
 
-        List<EnergiaEolica> topPaisesEolica = energiaController.obtenerTop10PaisesEolica(2022);
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultaCuatro().setVisible(true);
+                new ConsultaaDos().setVisible(true);
             }
         });
     }
