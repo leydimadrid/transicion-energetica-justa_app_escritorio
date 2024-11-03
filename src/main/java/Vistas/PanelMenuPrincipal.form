@@ -78,20 +78,20 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
-                              <Component id="JBConsultaUno" min="-2" pref="121" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
-                              <Component id="JBConsultaDos" min="-2" pref="135" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
-                              <Component id="JBConsultaTres" min="-2" pref="126" max="-2" attributes="0"/>
+                              <Component id="JBConsultaUno" min="-2" pref="126" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
+                              <Component id="JBConsultaDos" min="-2" pref="139" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="JBConsultaTres" min="-2" pref="129" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="189" max="-2" attributes="0"/>
-                              <Component id="JBConsultaCuatro" min="-2" pref="139" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
-                              <Component id="JBConsultaCinco" min="-2" pref="141" max="-2" attributes="0"/>
+                              <Component id="JBConsultaCuatro" min="-2" pref="147" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+                              <Component id="JBConsultaCinco" min="-2" pref="149" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="138" max="32767" attributes="0"/>
+                      <EmptySpace pref="135" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
