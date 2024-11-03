@@ -29,23 +29,31 @@ public class ConsultaCuatro extends javax.swing.JFrame {
     
 
     public ConsultaCuatro() {
-        initComponents();
+        initComponents(); // Inicializa los componentes de la interfaz
         
+        // Crear instancias del repositorio y el servicio de energía renovable
         EnergiaRenovableRepository energiaRenovableRepository = new EnergiaRenovableRepository();
         EnergiaRenovableService energiaRenovableService = new EnergiaRenovableService(energiaRenovableRepository);
+        
+         // Crear una instancia del controlador usando el servicio
         this.energiaController = new EnergiaRenovableController(energiaRenovableService);
-        llenarComboBoxAnios();
-        personalizarComponentes();
-        aplicarEstilosComunes(jButton2, jComboBox1, jTable1);
+        
+        
+        llenarComboBoxAnios(); // Llena el ComboBox
+        personalizarComponentes(); // Personaliza los componentes
+        
+        aplicarEstilosComunes(jButton2, jComboBox1, jTable1); // Aplica estilos a los componentes
+        
         jPanel2.setLayout(new java.awt.BorderLayout());
+        
         jButton2.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton2ActionPerformed(evt);
+            jButton2ActionPerformed(evt);// Acción del botón
         }
     });
     }
     
-    
+        // Método para llenar el JComboBox con los años disponibles de 2020 a 2023.
         private void llenarComboBoxAnios() {
             DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>(); 
             for (int año = 2020; año <= 2023; año++) { modelo.addElement(String.valueOf(año)); 
@@ -53,13 +61,19 @@ public class ConsultaCuatro extends javax.swing.JFrame {
             jComboBox1.setModel(modelo); 
         }
         
+        
        private CategoryDataset obtenerDatosProduccionPorAño(int año) {
+        // Método que obtiene los datos de producción de energía eólica para el año especificado.
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+       
+        // Obtener el top 10 de países por producción de energía eólica en el año especificado
         List<EnergiaEolica> topPaisesEolica = energiaController.obtenerTop10PaisesEolica(año);
+        
+        // Llenar el dataset con los datos de producción
         for (EnergiaEolica energia : topPaisesEolica) {
             dataset.addValue(energia.getCapacidadRotor(), "Producción", energia.getNombreFuente());
         }
-    return dataset;
+    return dataset; // Devolver el dataset lleno.
 }
        
    // Método para actualizar la tabla según el año seleccionado
@@ -79,6 +93,8 @@ public class ConsultaCuatro extends javax.swing.JFrame {
     jTable1.setModel(modeloTabla);
 }
    
+   
+         // Método que crea un gráfico de barras para la producción de energía eólica del año especificado.
         private void crearGrafico(int año) {
         CategoryDataset dataset = obtenerDatosProduccionPorAño(año);
         JFreeChart barChart = ChartFactory.createBarChart(
@@ -160,6 +176,11 @@ public class ConsultaCuatro extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jButton1.setText("Atrás");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Top 10 países por producción de  energía eólica en año");
@@ -194,18 +215,18 @@ public class ConsultaCuatro extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(85, 85, 85)
+                                .addGap(155, 155, 155)
                                 .addComponent(jLabel2)
-                                .addGap(32, 32, 32)
+                                .addGap(18, 18, 18)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton2))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(46, 46, 46)
+                                .addComponent(jButton1)
+                                .addGap(96, 96, 96)
                                 .addComponent(jLabel1)))
-                        .addGap(0, 127, Short.MAX_VALUE)))
+                        .addGap(0, 114, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -256,6 +277,14 @@ public class ConsultaCuatro extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    //Boton atras para ir al panel principal
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        PanelMenuPrincipal mi_PanelMenuPrincipal = new PanelMenuPrincipal ();
+        mi_PanelMenuPrincipal.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

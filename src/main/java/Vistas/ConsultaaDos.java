@@ -36,21 +36,29 @@ public class ConsultaaDos extends javax.swing.JFrame {
     
     public ConsultaaDos() {
         initComponents();  // Inicializa los componentes de la interfaz
+        
+        // Crear instancias del repositorio y el servicio de energía renovable
         EnergiaRenovableRepository energiaRenovableRepository = new EnergiaRenovableRepository();
         EnergiaRenovableService energiaRenovableService = new EnergiaRenovableService(energiaRenovableRepository);
+        
+        // Crear una instancia del controlador usando el servicio
         this.energiaController = new EnergiaRenovableController(energiaRenovableService);
        
-        llenarComboBoxConPaises();
-        personalizarComponentes();
-        aplicarEstilosComunes(jButton2, jComboBox1, jTable1);
+        llenarComboBoxConPaises(); // Llena el ComboBox
+        personalizarComponentes(); // Personaliza los componentes
+        
+        aplicarEstilosComunes(jButton2, jComboBox1, jTable1); // Aplica estilos a los componentes
+        
         jPanel2.setLayout(new java.awt.BorderLayout());
+        
         jButton2.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton2ActionPerformed(evt);
+            jButton2ActionPerformed(evt); // Acción del botón
         }
         });
     }
     
+    //Llenar la lista desplegable con la informacion de la BD
     private void llenarComboBoxConPaises() {
     jComboBox1.removeAllItems(); // Limpia el ComboBox antes de llenarlo
     List<ConsumoRegion> datos = energiaController.obtenerPorcentajeConsumoElectricoTotalRegion();
@@ -59,9 +67,9 @@ public class ConsultaaDos extends javax.swing.JFrame {
     }
 }
 
-     
+    //visualizar la producción de energía renovable por región en gráficos de barras u otros gráficos categóricos
     private CategoryDataset obtenerDatosConsumoRegion(int region) {
-    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset(); 
     List<ConsumoRegion> consumoRegion = energiaController.obtenerPorcentajeConsumoElectricoTotalRegion();
     for (ConsumoRegion consumo : consumoRegion) {
         dataset.addValue(consumo.getCapacidadInstaladaEnergiaRenovable(), "Producción", consumo.getRegion());
@@ -69,7 +77,7 @@ public class ConsultaaDos extends javax.swing.JFrame {
     return dataset;
 }
 
-
+    //Llenar tabla con los datos buscados en la BD
     private void llenarTablaConDatosSegunPais() {
     String[] columnas = {"País", "Consumo Total", "Producción renovable (MWh)", "Porcentaje energía renovable"};
     String paisSeleccionado = (String) jComboBox1.getSelectedItem();
@@ -94,8 +102,9 @@ public class ConsultaaDos extends javax.swing.JFrame {
         System.err.println("Error al obtener datos: " + e.getMessage());
     }
 }
-
-private void mostrarGrafico() {
+    
+    //Crear Grafico con los datos buscados en la BD
+    private void mostrarGrafico() {
     String paisSeleccionado = (String) jComboBox1.getSelectedItem();
     List<ConsumoRegion> datos = energiaController.obtenerPorcentajeConsumoElectricoTotalRegion();
     
@@ -132,14 +141,7 @@ private void mostrarGrafico() {
     }
 }
 
-
-   
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        llenarTablaConDatosSegunPais();
-        mostrarGrafico();
-    }
-
-
+    //Estilos para los jlabels
     private void personalizarComponentes() {
     Font fuenteBonita = new Font("Sans-Serif", Font.BOLD, 18); // Fuente sans-serif, negrita, tamaño 18
     Font fuenteBonitaDos = new Font("Sans.Serif", Font.BOLD, 13);
@@ -154,6 +156,7 @@ private void mostrarGrafico() {
 
 }
     
+    //Estilos en los componentes
     private void aplicarEstilosComunes(JButton button, JComboBox<String> comboBox, JTable table) {
     // Estilos para los botones
     button.setBackground(new Color(70, 130, 180)); // Color azul suave
@@ -194,6 +197,11 @@ private void mostrarGrafico() {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jButton1.setText("Atras");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Porcentaje de Energía Renovable en el Consumo Eléctrico Total por Región");
 
@@ -238,20 +246,19 @@ private void mostrarGrafico() {
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGap(134, 134, 134)
+                        .addContainerGap()
+                        .addComponent(jButton1)
+                        .addGap(52, 52, 52)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
                                 .addComponent(jLabel2)
-                                .addGap(39, 39, 39)
+                                .addGap(18, 18, 18)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel1)))
-                        .addGap(0, 55, Short.MAX_VALUE)))
+                                .addComponent(jButton2)))
+                        .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -287,6 +294,20 @@ private void mostrarGrafico() {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Accion del boton atras para ir hacia el panel principal
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        PanelMenuPrincipal mi_PanelMenuPrincipal = new PanelMenuPrincipal ();
+        mi_PanelMenuPrincipal.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    //Accion del boton para llenar grafica y tabla al dar buscar
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        llenarTablaConDatosSegunPais();
+        mostrarGrafico();
+    }
+    
     /**
      * @param args the command line arguments
      */

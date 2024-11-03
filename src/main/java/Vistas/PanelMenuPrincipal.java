@@ -131,6 +131,11 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
         jTabbedEnergias = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        JBConsultaUno = new javax.swing.JButton();
+        JBConsultaTres = new javax.swing.JButton();
+        JBConsultaCinco = new javax.swing.JButton();
+        JBConsultaDos = new javax.swing.JButton();
+        JBConsultaCuatro = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButtonBuscar = new javax.swing.JButton();
         jButtonActualizar = new javax.swing.JButton();
@@ -154,15 +159,74 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
 
+        JBConsultaUno.setText("Consulta Uno");
+        JBConsultaUno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBConsultaUnoActionPerformed(evt);
+            }
+        });
+
+        JBConsultaTres.setText("Consulta Tres");
+        JBConsultaTres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBConsultaTresActionPerformed(evt);
+            }
+        });
+
+        JBConsultaCinco.setText("Consulta Cinco");
+        JBConsultaCinco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBConsultaCincoActionPerformed(evt);
+            }
+        });
+
+        JBConsultaDos.setText("Consulta Dos");
+        JBConsultaDos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBConsultaDosActionPerformed(evt);
+            }
+        });
+
+        JBConsultaCuatro.setText("Consulta Cuatro");
+        JBConsultaCuatro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBConsultaCuatroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 802, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(JBConsultaUno, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(111, 111, 111)
+                        .addComponent(JBConsultaDos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(104, 104, 104)
+                        .addComponent(JBConsultaTres, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(189, 189, 189)
+                        .addComponent(JBConsultaCuatro, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(96, 96, 96)
+                        .addComponent(JBConsultaCinco, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 643, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JBConsultaUno, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JBConsultaTres, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JBConsultaDos, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(58, 58, 58)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JBConsultaCuatro, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JBConsultaCinco, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(374, Short.MAX_VALUE))
         );
 
         jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);
@@ -251,8 +315,6 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        spinner.setIcon(new javax.swing.ImageIcon("C:\\Andrea\\NuevaRepo\\src\\main\\java\\com\\codelearn\\transicionenergeticajusta\\Resources\\Spinner2.gif")); // NOI18N
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -260,7 +322,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(JtablaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(90, 90, 90)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -312,7 +374,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(JtablaUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
         );
@@ -367,6 +429,50 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         eliminarUsuarioById();
 
     }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    //Ir a la consulta Uno
+    private void JBConsultaUnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBConsultaUnoActionPerformed
+
+        //ConsultaUno Consulta1 = new ConsultaUno();
+        this.setVisible(false);
+        ConsultaUno mi_Consulta1 = new ConsultaUno();
+        mi_Consulta1.setVisible(true);
+
+    }//GEN-LAST:event_JBConsultaUnoActionPerformed
+
+    //Ir a la consulta Tres
+    private void JBConsultaTresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBConsultaTresActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        ConsultaTres mi_Consulta3 = new ConsultaTres();
+        mi_Consulta3.setVisible(true);
+        
+    }//GEN-LAST:event_JBConsultaTresActionPerformed
+
+    //Ir a la consulta cinco
+    private void JBConsultaCincoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBConsultaCincoActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        ConsultaCinco mi_Consulta5 = new ConsultaCinco();
+        mi_Consulta5.setVisible(true);
+        
+    }//GEN-LAST:event_JBConsultaCincoActionPerformed
+
+    //Ir a la consulta Dos
+    private void JBConsultaDosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBConsultaDosActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        ConsultaaDos mi_Consulta2 = new ConsultaaDos();
+        mi_Consulta2.setVisible(true);
+    }//GEN-LAST:event_JBConsultaDosActionPerformed
+
+    //Ir a la consulta Cuatro
+    private void JBConsultaCuatroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBConsultaCuatroActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        ConsultaCuatro mi_Consulta4 = new ConsultaCuatro();
+        mi_Consulta4.setVisible(true);
+    }//GEN-LAST:event_JBConsultaCuatroActionPerformed
     private void eliminarUsuarioById() {
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este usuario?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
@@ -608,6 +714,11 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JBConsultaCinco;
+    private javax.swing.JButton JBConsultaCuatro;
+    private javax.swing.JButton JBConsultaDos;
+    private javax.swing.JButton JBConsultaTres;
+    private javax.swing.JButton JBConsultaUno;
     private javax.swing.JScrollPane JtablaUsuarios;
     private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonBuscar;

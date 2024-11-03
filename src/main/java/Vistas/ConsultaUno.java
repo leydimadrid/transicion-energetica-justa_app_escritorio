@@ -1,6 +1,8 @@
+
 package Vistas;
 
 import Controllers.EnergiaRenovableController;
+import Model.Dtos.ProduccionEnergia;
 import Repository.EnergiaRenovableRepository;
 import Services.EnergiaRenovableService;
 
@@ -16,16 +18,34 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class ConsultaUno extends javax.swing.JFrame {
-
+    
     public ConsultaUno() {
         initComponents();
         this.setVisible(true);
-        agregarPaises();
+        aniosConsulta();
         agregarTiposEnergia();
         setLocationRelativeTo(null);
 
-        // Crear el dataset
-        CategoryDataset dataset = crearDataset();
+        
+
+        jPanel1.add(jLabel1);
+        jPanel1.add(JbSeleccionAnio);
+        //jPanel1.add(jLabel2); no sé que hace... test
+        jPanel1.add(JbSeleccionEnergia);
+        jPanel1.add(jButton1);
+
+        
+
+        // Añadir el panel de la gráfica al jPanel2
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.revalidate();  // Refrescar el panel para que se vea el nuevo gráfico
+        jPanel2.repaint();
+    }
+
+    private void crearGrafica (String tipoEnergia, int anio){
+    
+    // Crear el dataset
+        CategoryDataset dataset = crearDataset(tipoEnergia,anio);
 
         // Crear la gráfica
         JFreeChart grafico = ChartFactory.createBarChart(
@@ -42,37 +62,53 @@ public class ConsultaUno extends javax.swing.JFrame {
         // Crear un panel de la gráfica
         ChartPanel chartPanel = new ChartPanel(grafico);
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        jPanel1.add(jLabel1);
-        jPanel1.add(jComboBox1);
-        jPanel1.add(jLabel2);
-        jPanel1.add(jComboBox2);
-        jPanel1.add(jButton1);
-
+    
         // Crear un nuevo panel para la gráfica
         chartPanel = new ChartPanel(grafico);
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        // Añadir el panel de la gráfica al jPanel2
-        jPanel2.setLayout(new BorderLayout());
+    
         jPanel2.add(chartPanel, BorderLayout.CENTER);
-        jPanel2.revalidate();  // Refrescar el panel para que se vea el nuevo gráfico
-        jPanel2.repaint();
+        
     }
-
+    
+    
     // Metodo para crear el dataset de la gráfica
-    private CategoryDataset crearDataset() {
+    private CategoryDataset crearDataset(String tipoEnergia, int anio) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        // Añadir valores al dataset
-        dataset.addValue(100, "Solar", "Energía Solar");
-        dataset.addValue(300, "Eólica", "Energía Eólica");
-        dataset.addValue(250, "Hidráulica", "Energía Hidráulica");
-        dataset.addValue(400, "Térmica", "Energía Térmica");
-
+        List<ProduccionEnergia> produccionEnergiaLista = consultarProduccionDeEnergia(tipoEnergia, anio);
+        if (!produccionEnergiaLista.isEmpty() ){
+    
+            for (int i=0; i<produccionEnergiaLista.size(); i++ ){
+           
+                // Añadir valores al dataset
+                dataset.addValue(produccionEnergiaLista.get(i).getProduccionTotal(), produccionEnergiaLista.get(i).getRegion(), produccionEnergiaLista.get(i).getRegion());
+            
+            }
+        }
         return dataset;
     }
-
+    
+    private List<ProduccionEnergia> consultarProduccionDeEnergia(String tipoEnergia, int anio){
+    
+        EnergiaRenovableRepository energiaRenovableRepository = new EnergiaRenovableRepository();
+        EnergiaRenovableService energiaRenovableService = new EnergiaRenovableService(energiaRenovableRepository);
+        EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaRenovableService);
+        
+        /*obtenerProduccionTotalEnergia Prueba metodo */
+        return energiaController.obtenerProduccionTotalEnergia(tipoEnergia, anio);
+    
+    }
+    
+    private void aniosConsulta(){
+    
+        for (int anioInicial=1980; anioInicial <= 2022; anioInicial ++ ){
+            JbSeleccionAnio.addItem(String.valueOf(anioInicial));
+            
+            
+        }
+    }
+    
     private void agregarPaises() {
         // Lista de consultas
         List<String> consultas = new ArrayList<>();
@@ -87,21 +123,26 @@ public class ConsultaUno extends javax.swing.JFrame {
         consultas.add("Uruguay");
         // Agregar elementos al JComboBox
         for (String consulta : consultas) {
-            jComboBox1.addItem(consulta);
+           // jComboBox3.addItem(consulta);
         }
     }
 
     private void agregarTiposEnergia() {
         // Lista de consultas
-        List<String> consultas = new ArrayList<>();
+        /*List<String> consultas = new ArrayList<>();
         consultas.add("Energia Solar");
         consultas.add("Energia Eolica");
         consultas.add("Energia Bicombustible");
         // Agregar elementos al JComboBox
         for (String consulta : consultas) {
-            jComboBox2.addItem(consulta);
-        }
+            JbSeleccionEnergia.addItem(consulta);
+        }*/
 
+        JbSeleccionEnergia.addItem("Solar");
+        JbSeleccionEnergia.addItem("Eólica");
+        JbSeleccionEnergia.addItem("Hidráulica");
+        JbSeleccionEnergia.addItem("Geotérmica");
+        JbSeleccionEnergia.addItem("Biomasa");
     }
 
     /**
@@ -115,10 +156,10 @@ public class ConsultaUno extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        JbSeleccionAnio = new javax.swing.JComboBox<>();
+        JbSeleccionEnergia = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
@@ -127,25 +168,32 @@ public class ConsultaUno extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Consulta  uno ");
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel1.setDoubleBuffered(false);
+        jPanel1.setEnabled(false);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Escoger pais"}));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setText("Producción total Energia Renovable");
+
+        JbSeleccionAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona año" }));
+        JbSeleccionAnio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                JbSeleccionAnioActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Año");
-
-        jLabel3.setText("Tipo Energia");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Escoger tipo energia"}));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        JbSeleccionEnergia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escoger tipo energia" }));
+        JbSeleccionEnergia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                JbSeleccionEnergiaActionPerformed(evt);
             }
         });
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setText("Tipo de Energia");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setText("Año");
 
         jButton1.setText("Buscar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -157,12 +205,12 @@ public class ConsultaUno extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 0, Short.MAX_VALUE)
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 359, Short.MAX_VALUE)
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 329, Short.MAX_VALUE)
         );
 
         jButton2.setText("Atras");
@@ -180,102 +228,94 @@ public class ConsultaUno extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                .addGap(291, 291, 291)
-                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addGap(38, 38, 38)
-                                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addGap(29, 29, 29)
-                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                .addGap(44, 44, 44)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
-                                                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addGap(15, 15, 15)
-                                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(0, 0, Short.MAX_VALUE)))))
-                                .addGap(56, 56, 56))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane1)
-                                .addContainerGap())
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JbSeleccionAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(JbSeleccionEnergia, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(136, 136, 136))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(202, 202, 202)
+                        .addComponent(jLabel4)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1))
         );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jButton2))
-                                .addGap(53, 53, 53)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel3))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton1))
-                                .addGap(20, 20, 20)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton2))
+                .addGap(62, 62, 62)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JbSeleccionAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JbSeleccionEnergia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        jPanel2.getAccessibleContext().setAccessibleParent(jLabel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String selectedItem = (String) jComboBox1.getSelectedItem();
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        //VistaPrincipal vistaP = new VistaPrincipal();
+        this.setVisible(false);
+        PanelMenuPrincipal mi_PanelMenuPrincipal = new PanelMenuPrincipal ();
+        mi_PanelMenuPrincipal.setVisible(true);
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-        String selectedItem = (String) jComboBox2.getSelectedItem();
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
+        
 
-        String tipoEnergia = (String) jComboBox1.getSelectedItem();
-        String anio = (String) jComboBox2.getSelectedItem();
-
+        String tipoEnergia = (String) JbSeleccionEnergia.getSelectedItem();
+        String anio = (String) JbSeleccionAnio.getSelectedItem();
+        
         // Inicializa el repositorio
         EnergiaRenovableRepository energiaRepository = new EnergiaRenovableRepository();
 
@@ -291,17 +331,26 @@ public class ConsultaUno extends javax.swing.JFrame {
         //jTextArea1.setText(res);
 
 
+
+        //jTextArea1.setText(res);
+        
+        crearGrafica(tipoEnergia, Integer.parseInt(anio));
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void JbSeleccionEnergiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbSeleccionEnergiaActionPerformed
         // TODO add your handling code here:
-        VistaPrincipal vistaP = new VistaPrincipal();
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        String selectedItem = (String) JbSeleccionEnergia.getSelectedItem();
 
-    /**
-     * @param args the command line arguments
-     */
+    }//GEN-LAST:event_JbSeleccionEnergiaActionPerformed
+
+    private void JbSeleccionAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbSeleccionAnioActionPerformed
+        // TODO add your handling code here:
+        String selectedItem = (String) JbSeleccionAnio.getSelectedItem();
+
+    }//GEN-LAST:event_JbSeleccionAnioActionPerformed
+
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -323,16 +372,17 @@ public class ConsultaUno extends javax.swing.JFrame {
                 new ConsultaUno().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> JbSeleccionAnio;
+    private javax.swing.JComboBox<String> JbSeleccionEnergia;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
