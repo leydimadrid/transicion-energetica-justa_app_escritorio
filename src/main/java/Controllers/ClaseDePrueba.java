@@ -5,6 +5,7 @@
 package Controllers;
 
 import Model.Dtos.CapacidadInstaladaSolar;
+import Model.Dtos.ConsumoRegion;
 import Model.Dtos.ProduccionEnergia;
 import Model.EnergiaEolica;
 import Model.PlantaProduccion;
@@ -23,21 +24,24 @@ import java.util.Map;
 public class ClaseDePrueba {
 
     public static void main(String[] args) {
-        
+
         EnergiaRenovableRepository energiaRenovableRepository = new EnergiaRenovableRepository();
         EnergiaRenovableService energiaRenovableService = new EnergiaRenovableService(energiaRenovableRepository);
         EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaRenovableService);
-        
+
         /*obtenerProduccionTotalEnergia Prueba metodo */
-        List<ProduccionEnergia> listenergiasRenovables = energiaController.obtenerProduccionTotalEnergia("Eólica", 2023);      
+        List<ProduccionEnergia> listenergiasRenovables = energiaController.obtenerProduccionTotalEnergia("Eólica", 2023);
         List<ProduccionEnergia> listenergiasRenovablese = listenergiasRenovables;
-        
-        
-        /*obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios Prueba metodo */       
+
+        /*obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios Prueba metodo */
         List<CapacidadInstaladaSolar> capacidadInstaladaSolar = energiaController.obtenerCapacidadInstaladaEnergiaSolarTodosLosAnios();
         List<CapacidadInstaladaSolar> capacidadInstaladaSolare = capacidadInstaladaSolar;
 
-        /*obtenerTop10PaisesEolica Prueba metodo */   
+        /* *Calcular el porcentaje de energía renovable en el consumo eléctrico total de cada región. */
+        List<ConsumoRegion> consumoRegion = energiaController.obtenerPorcentajeConsumoElectricoTotalRegion();
+        List<ConsumoRegion> consumoRegionn = consumoRegion;
+
+        /*obtenerTop10PaisesEolica Prueba metodo */
         System.out.println("\n----Obtener los 10 países con mayor producción de energía eólica en un año específico----\n");
         List<EnergiaEolica> topPaisesEolica = energiaController.obtenerTop10PaisesEolica(2022);
         for (EnergiaEolica energia : topPaisesEolica) {

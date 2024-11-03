@@ -171,7 +171,7 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        JBConsultaCinco.setText("ConsultaCicno");
+        JBConsultaCinco.setText("ConsultaCinco");
         JBConsultaCinco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JBConsultaCincoActionPerformed(evt);
@@ -183,16 +183,15 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(284, 284, 284)
-                        .addComponent(JBConsultaCinco))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(JBConsultaUno)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
-                        .addComponent(JBConsultaTres)))
-                .addGap(216, 216, 216))
+                .addGap(75, 75, 75)
+                .addComponent(JBConsultaUno)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(JBConsultaTres)
+                .addGap(75, 75, 75))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(349, Short.MAX_VALUE)
+                .addComponent(JBConsultaCinco)
+                .addGap(345, 345, 345))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,9 +200,9 @@ public class PanelMenuPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JBConsultaUno)
                     .addComponent(JBConsultaTres))
-                .addGap(174, 174, 174)
+                .addGap(177, 177, 177)
                 .addComponent(JBConsultaCinco)
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(312, Short.MAX_VALUE))
         );
 
         jTabbedEnergias.addTab("Gestion de Energias renovables", jPanel1);

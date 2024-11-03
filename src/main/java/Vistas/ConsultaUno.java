@@ -102,7 +102,7 @@ public class ConsultaUno extends javax.swing.JFrame {
     
     private void aniosConsulta(){
     
-        for (int anioInicial=1980; anioInicial <= 2022; anioInicial ++ ){
+        for (int anioInicial=2000; anioInicial <= 2022; anioInicial ++ ){
             JbSeleccionAnio.addItem(String.valueOf(anioInicial));
             
             
@@ -242,13 +242,14 @@ public class ConsultaUno extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(202, 202, 202)
-                        .addComponent(jLabel4)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(202, 202, 202)
+                                .addComponent(jLabel4))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -326,10 +327,11 @@ public class ConsultaUno extends javax.swing.JFrame {
         EnergiaRenovableController controller = new EnergiaRenovableController(energiaService);
 
         // Llamar al método del controlador para procesar la consulta
-        String res = controller.obtenerPorcentajeConsumoElectricoTotalRegion();
+        //String res = controller.obtenerPorcentajeConsumoElectricoTotalRegion();
 
-        jTextArea1.setText(res);
-        
+        //jTextArea1.setText(res);
+        System.out.println("Fecha elegida: "+ anio);
+        System.out.println("Fecha tipoEnergia: "+ tipoEnergia);
         crearGrafica(tipoEnergia, Integer.parseInt(anio));
     }//GEN-LAST:event_jButton1ActionPerformed
 

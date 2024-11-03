@@ -89,8 +89,6 @@ public class ConsultaTres extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         JPGrafica = new javax.swing.JPanel();
-        JBPeriodoConsulta = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -111,16 +109,6 @@ public class ConsultaTres extends javax.swing.JFrame {
             .addGap(0, 490, Short.MAX_VALUE)
         );
 
-        JBPeriodoConsulta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ultimos 5 años", "ultimos 10 años", "ultimos 15 años", "ultimos 20 años" }));
-        JBPeriodoConsulta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JBPeriodoConsultaActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Periodo a consultar");
-
         jButton2.setText("Atras");
         jButton2.setBorderPainted(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -139,11 +127,6 @@ public class ConsultaTres extends javax.swing.JFrame {
                         .addGap(100, 100, 100)
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel2)
-                        .addGap(86, 86, 86)
-                        .addComponent(JBPeriodoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -157,11 +140,7 @@ public class ConsultaTres extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(JBPeriodoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(62, 62, 62)
                 .addComponent(JPGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(17, Short.MAX_VALUE))
         );
@@ -187,11 +166,6 @@ public class ConsultaTres extends javax.swing.JFrame {
         PanelMenuPrincipal mi_PanelMenuPrincipal = new PanelMenuPrincipal ();
         mi_PanelMenuPrincipal.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void JBPeriodoConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBPeriodoConsultaActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_JBPeriodoConsultaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -229,11 +203,9 @@ public class ConsultaTres extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> JBPeriodoConsulta;
     private javax.swing.JPanel JPGrafica;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
