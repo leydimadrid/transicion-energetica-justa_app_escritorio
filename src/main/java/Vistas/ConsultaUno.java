@@ -2,6 +2,7 @@
 package Vistas;
 
 import Controllers.EnergiaRenovableController;
+import Model.Dtos.ProduccionEnergia;
 import Repository.EnergiaRenovableRepository;
 import Services.EnergiaRenovableService;
 
@@ -17,7 +18,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public class ConsultaUno extends javax.swing.JFrame {
-
+    
     public ConsultaUno() {
         initComponents();
         this.setVisible(true);
@@ -25,8 +26,26 @@ public class ConsultaUno extends javax.swing.JFrame {
         agregarTiposEnergia();
         setLocationRelativeTo(null);
 
-        // Crear el dataset
-        CategoryDataset dataset = crearDataset();
+        
+
+        jPanel1.add(jLabel1);
+        jPanel1.add(JbSeleccionAnio);
+        //jPanel1.add(jLabel2); no sé que hace... test
+        jPanel1.add(JbSeleccionEnergia);
+        jPanel1.add(jButton1);
+
+        
+
+        // Añadir el panel de la gráfica al jPanel2
+        jPanel2.setLayout(new BorderLayout());
+        jPanel2.revalidate();  // Refrescar el panel para que se vea el nuevo gráfico
+        jPanel2.repaint();
+    }
+
+    private void crearGrafica (String tipoEnergia, int anio){
+    
+    // Crear el dataset
+        CategoryDataset dataset = crearDataset(tipoEnergia,anio);
 
         // Crear la gráfica
         JFreeChart grafico = ChartFactory.createBarChart(
@@ -43,44 +62,48 @@ public class ConsultaUno extends javax.swing.JFrame {
         // Crear un panel de la gráfica
         ChartPanel chartPanel = new ChartPanel(grafico);
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        jPanel1.add(jLabel1);
-        jPanel1.add(jComboBox1);
-        //jPanel1.add(jLabel2); no sé que hace... test
-        jPanel1.add(jComboBox2);
-        jPanel1.add(jButton1);
-
+    
         // Crear un nuevo panel para la gráfica
         chartPanel = new ChartPanel(grafico);
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        // Añadir el panel de la gráfica al jPanel2
-        jPanel2.setLayout(new BorderLayout());
+    
         jPanel2.add(chartPanel, BorderLayout.CENTER);
-        jPanel2.revalidate();  // Refrescar el panel para que se vea el nuevo gráfico
-        jPanel2.repaint();
+        
     }
-
+    
+    
     // Metodo para crear el dataset de la gráfica
-    private CategoryDataset crearDataset() {
+    private CategoryDataset crearDataset(String tipoEnergia, int anio) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        // Añadir valores al dataset
-        dataset.addValue(100, "Mexico ", "Mexico ");
-        dataset.addValue(300, " Colombia ", " Colombia ");
-        dataset.addValue(250, " Brasil ", " Brasil ");
-        dataset.addValue(400, " Argentina ", " Argentina ");
-        dataset.addValue(233, "Peru ", "Peru ");
-        dataset.addValue(443, "Chile ", "Chile ");
-        dataset.addValue(652, "Venezuela ", "Venezuela ");
-        dataset.addValue(342, "Bolivia ", "Bolivia ");
+        List<ProduccionEnergia> produccionEnergiaLista = consultarProduccionDeEnergia(tipoEnergia, anio);
+        if (!produccionEnergiaLista.isEmpty() ){
+    
+            for (int i=0; i<produccionEnergiaLista.size(); i++ ){
+           
+                // Añadir valores al dataset
+                dataset.addValue(produccionEnergiaLista.get(i).getProduccionTotal(), produccionEnergiaLista.get(i).getRegion(), produccionEnergiaLista.get(i).getRegion());
+            
+            }
+        }
         return dataset;
+    }
+    
+    private List<ProduccionEnergia> consultarProduccionDeEnergia(String tipoEnergia, int anio){
+    
+        EnergiaRenovableRepository energiaRenovableRepository = new EnergiaRenovableRepository();
+        EnergiaRenovableService energiaRenovableService = new EnergiaRenovableService(energiaRenovableRepository);
+        EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaRenovableService);
+        
+        /*obtenerProduccionTotalEnergia Prueba metodo */
+        return energiaController.obtenerProduccionTotalEnergia(tipoEnergia, anio);
+    
     }
     
     private void aniosConsulta(){
     
         for (int anioInicial=1980; anioInicial <= 2022; anioInicial ++ ){
-            jComboBox1.addItem(String.valueOf(anioInicial));
+            JbSeleccionAnio.addItem(String.valueOf(anioInicial));
             
             
         }
@@ -106,15 +129,20 @@ public class ConsultaUno extends javax.swing.JFrame {
 
     private void agregarTiposEnergia() {
         // Lista de consultas
-        List<String> consultas = new ArrayList<>();
+        /*List<String> consultas = new ArrayList<>();
         consultas.add("Energia Solar");
         consultas.add("Energia Eolica");
         consultas.add("Energia Bicombustible");
         // Agregar elementos al JComboBox
         for (String consulta : consultas) {
-            jComboBox2.addItem(consulta);
-        }
+            JbSeleccionEnergia.addItem(consulta);
+        }*/
 
+        JbSeleccionEnergia.addItem("Solar");
+        JbSeleccionEnergia.addItem("Eólica");
+        JbSeleccionEnergia.addItem("Hidráulica");
+        JbSeleccionEnergia.addItem("Geotérmica");
+        JbSeleccionEnergia.addItem("Biomasa");
     }
 
     /**
@@ -128,8 +156,8 @@ public class ConsultaUno extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        JbSeleccionAnio = new javax.swing.JComboBox<>();
+        JbSeleccionEnergia = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -147,17 +175,17 @@ public class ConsultaUno extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Producción total Energia Renovable");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona año" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        JbSeleccionAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona año" }));
+        JbSeleccionAnio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                JbSeleccionAnioActionPerformed(evt);
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escoger tipo energia" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        JbSeleccionEnergia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escoger tipo energia" }));
+        JbSeleccionEnergia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                JbSeleccionEnergiaActionPerformed(evt);
             }
         });
 
@@ -205,12 +233,12 @@ public class ConsultaUno extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JbSeleccionAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(141, 141, 141)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(JbSeleccionEnergia, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57))
@@ -242,8 +270,8 @@ public class ConsultaUno extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JbSeleccionAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JbSeleccionEnergia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(46, 46, 46)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -282,10 +310,12 @@ public class ConsultaUno extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
+        
 
-        String tipoEnergia = (String) jComboBox1.getSelectedItem();
-        String anio = (String) jComboBox2.getSelectedItem();
-
+        String tipoEnergia = (String) JbSeleccionEnergia.getSelectedItem();
+        String anio = (String) JbSeleccionAnio.getSelectedItem();
+        
         // Inicializa el repositorio
         EnergiaRenovableRepository energiaRepository = new EnergiaRenovableRepository();
 
@@ -299,24 +329,23 @@ public class ConsultaUno extends javax.swing.JFrame {
         String res = controller.obtenerPorcentajeConsumoElectricoTotalRegion();
 
         jTextArea1.setText(res);
-
+        
+        crearGrafica(tipoEnergia, Integer.parseInt(anio));
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void JbSeleccionEnergiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbSeleccionEnergiaActionPerformed
         // TODO add your handling code here:
-        String selectedItem = (String) jComboBox2.getSelectedItem();
+        String selectedItem = (String) JbSeleccionEnergia.getSelectedItem();
 
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_JbSeleccionEnergiaActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void JbSeleccionAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbSeleccionAnioActionPerformed
         // TODO add your handling code here:
-        String selectedItem = (String) jComboBox1.getSelectedItem();
+        String selectedItem = (String) JbSeleccionAnio.getSelectedItem();
 
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_JbSeleccionAnioActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -342,10 +371,10 @@ public class ConsultaUno extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> JbSeleccionAnio;
+    private javax.swing.JComboBox<String> JbSeleccionEnergia;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

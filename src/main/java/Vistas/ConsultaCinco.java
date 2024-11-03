@@ -1,8 +1,12 @@
 package Vistas;
 
+import Controllers.EnergiaRenovableController;
+import Repository.EnergiaRenovableRepository;
+import Services.EnergiaRenovableService;
 import org.jfree.data.general.DefaultPieDataset;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Map;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -18,6 +22,38 @@ public class ConsultaCinco extends javax.swing.JFrame {
      */
     public ConsultaCinco() {
         initComponents();
+        iniciarGrafica();
+    }
+    
+    private void iniciarGrafica() {
+        
+        EnergiaRenovableRepository energiaRenovableRepository = new EnergiaRenovableRepository();
+        EnergiaRenovableService energiaRenovableService = new EnergiaRenovableService(energiaRenovableRepository);
+        EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaRenovableService);
+
+        Map<String, Double> consumoEnergiaMapa = energiaController.obtenerParticipacionConsumo();
+        
+        
+        DefaultPieDataset datos = new DefaultPieDataset();
+
+        datos.setValue("Biomasa", consumoEnergiaMapa.get("Biomasa"));
+        datos.setValue("Eolica", consumoEnergiaMapa.get("Eólica"));
+        datos.setValue("Solar", consumoEnergiaMapa.get("Solar"));
+        datos.setValue("Geotermica", consumoEnergiaMapa.get("Geotérmica"));
+        datos.setValue("Hidraulica", consumoEnergiaMapa.get("Hidraúlica"));
+        datos.setValue("Termica", consumoEnergiaMapa.get("Termal"));
+        
+        JFreeChart grafico_circular = ChartFactory.createPieChart("Consumo a nivel global",datos,true,true,false);
+
+        ChartPanel panel = new ChartPanel(grafico_circular);
+        panel.setMouseWheelEnabled(true);
+        panel.setPreferredSize(new Dimension(750, 340));
+
+        JPanelGrafica.setLayout(new BorderLayout());
+        JPanelGrafica.add(panel,BorderLayout.NORTH);
+
+        pack();
+        repaint();
     }
     
   
@@ -151,7 +187,7 @@ public class ConsultaCinco extends javax.swing.JFrame {
         JPanelGrafica.setLayout(JPanelGraficaLayout);
         JPanelGraficaLayout.setHorizontalGroup(
             JPanelGraficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+            .addGap(0, 745, Short.MAX_VALUE)
         );
         JPanelGraficaLayout.setVerticalGroup(
             JPanelGraficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,17 +209,6 @@ public class ConsultaCinco extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(JPanelGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(50, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(211, 211, 211))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -211,6 +236,17 @@ public class ConsultaCinco extends javax.swing.JFrame {
                         .addGap(348, 348, 348)
                         .addComponent(jButton1)))
                 .addContainerGap(130, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(JPanelGrafica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(211, 211, 211))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
