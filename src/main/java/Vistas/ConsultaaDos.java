@@ -220,7 +220,7 @@ public class ConsultaaDos extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "País", "Consumo Total", "Producción Renovable (kWh)", "Porcentaje Energía Renobable (%)"
+                "País", "Consumo Total", "Producción Renovable (kWh)", "Porcentaje Energía Renovable (%)"
             }
         ));
         jScrollPane1.setViewportView(jTable1);

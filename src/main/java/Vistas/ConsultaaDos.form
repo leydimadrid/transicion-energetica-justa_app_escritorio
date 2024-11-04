@@ -156,7 +156,7 @@
                     <Column editable="true" title="Pa&#xed;s" type="java.lang.Object"/>
                     <Column editable="true" title="Consumo Total" type="java.lang.Object"/>
                     <Column editable="true" title="Producci&#xf3;n Renovable (kWh)" type="java.lang.Object"/>
-                    <Column editable="true" title="Porcentaje Energ&#xed;a Renobable (%)" type="java.lang.Object"/>
+                    <Column editable="true" title="Porcentaje Energ&#xed;a Renovable (%)" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
