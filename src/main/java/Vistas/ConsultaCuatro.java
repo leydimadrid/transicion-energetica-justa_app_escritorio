@@ -215,18 +215,18 @@ public class ConsultaCuatro extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(155, 155, 155)
+                                .addContainerGap()
+                                .addComponent(jButton1)
+                                .addGap(169, 169, 169)
+                                .addComponent(jLabel1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(253, 253, 253)
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton1)
-                                .addGap(96, 96, 96)
-                                .addComponent(jLabel1)))
-                        .addGap(0, 114, Short.MAX_VALUE)))
+                                .addGap(46, 46, 46)
+                                .addComponent(jButton2)))
+                        .addGap(0, 235, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -256,7 +256,7 @@ public class ConsultaCuatro extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 292, Short.MAX_VALUE)
+            .addGap(0, 396, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -264,18 +264,18 @@ public class ConsultaCuatro extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     //Boton atras para ir al panel principal
@@ -312,11 +312,6 @@ public class ConsultaCuatro extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ConsultaCuatro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        EnergiaRenovableRepository energiaRenovableRepository = new EnergiaRenovableRepository();
-        EnergiaRenovableService energiaRenovableService = new EnergiaRenovableService(energiaRenovableRepository);
-        EnergiaRenovableController energiaController = new EnergiaRenovableController(energiaRenovableService);
-
-        List<EnergiaEolica> topPaisesEolica = energiaController.obtenerTop10PaisesEolica(2022);
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
