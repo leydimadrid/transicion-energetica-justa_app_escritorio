@@ -38,14 +38,7 @@ public class EnergiaRenovableRepository {
         try {
             conn = conexion.conectar();
             if (conn != null) {
-                String sql = "SELECT " + "er.nombre_fuente AS tipo_energia, "
-                        + "pp.isla_departamento AS region, "
-                        + "SUM(pp.disponibilidad_horas) AS produccion_total "
-                        + "FROM planta_produccion pp "
-                        + "JOIN energia_renovable er ON pp.energia_renovable_id = er.energia_renovable_id "
-                        + "WHERE pp.anio = ? AND er.nombre_fuente = ? "
-                        + "GROUP BY er.nombre_fuente, pp.isla_departamento "
-                        + "ORDER BY er.nombre_fuente, pp.isla_departamento";
+                String sql = SqlQueries.OBTENER_PRODUCCION_TOTAL_ENERGIA;
 
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setInt(1, anio);
@@ -80,17 +73,7 @@ public class EnergiaRenovableRepository {
         try {
             conn = conexion.conectar();
             if (conn != null) {
-                String sql = "SELECT "
-                        + "p.nombre AS Region, "
-                        + "COALESCE(SUM(c.cantidad_consumida), 0) AS consumo_total, "
-                        + "COALESCE(SUM(p2.disponibilidad_horas), 0) AS capacidad_instalada_energia_renovable, "
-                        + "(COALESCE(SUM(c.cantidad_consumida), 0) / NULLIF(SUM(p2.disponibilidad_horas), 0)) * 100 AS porcentaje_energia_renovable "
-                        + "FROM pais p "
-                        + "LEFT JOIN consumo c ON p.pais_id = c.pais_id "
-                        + "LEFT JOIN energia_renovable er ON c.energia_renovable_id = er.energia_renovable_id "
-                        + "LEFT JOIN (SELECT SUM(disponibilidad_horas) AS disponibilidad_horas FROM planta_produccion) p2 ON 1 = 1 "
-                        + "GROUP BY p.nombre "
-                        + "ORDER BY p.nombre";
+                String sql = SqlQueries.OBTENER_PORCENTAJE_CONSUMO_REGION;
 
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
@@ -124,11 +107,7 @@ public class EnergiaRenovableRepository {
         try {
             conn = conexion.conectar();
             if (conn != null) {
-                String sql = "SELECT anio, SUM(capacidad_instalador) AS capacidad_total_instalada "
-                        + "FROM energia_solar "
-                        + "GROUP BY anio "
-                        + "ORDER BY anio";
-
+                String sql = SqlQueries.OBTENER_CAPACIDAD_INSTALADA_SOLAR;
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
 
@@ -151,52 +130,6 @@ public class EnergiaRenovableRepository {
         return capacidadList;
     }
 
-
-    /*
-
-       public List<PorcentajeConsumoElectrico> obtenerPorcentajeConsumoElectricoTotalRegion() {
-        List<PorcentajeConsumoElectrico> porcentajeList = new ArrayList<>();
-        Connection conn = null;
-
-        try {
-            conn = conexion.conectar();
-            if (conn != null) {
-                String sql = "SELECT " +
-                        "pp.isla_departamento AS region, " +
-                        "er.nombre_fuente AS tipo_energia, " +
-                        "SUM(pp.disponibilidad_horas) AS produccion_renovable, " +
-                        "SUM(COALESCE(pp.total_energia, 0)) AS consumo_total, " +
-                        "(SUM(pp.disponibilidad_horas) / NULLIF(SUM(COALESCE(pp.total_energia, 0)), 0)) * 100 AS porcentaje_renovable " +
-                        "FROM planta_produccion pp " +
-                        "JOIN energia_renovable er ON pp.energia_renovable_id = er.energia_renovable_id " +
-                        "GROUP BY pp.isla_departamento, er.nombre_fuente " +
-                        "ORDER BY porcentaje_renovable DESC";
-
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery();
-
-                while (rs.next()) {
-                    PorcentajeConsumoElectrico porcentaje = new PorcentajeConsumoElectrico();
-                    porcentaje.setRegion(rs.getString("region"));
-                    porcentaje.setTipoEnergia(rs.getString("tipo_energia"));
-                    porcentaje.setProduccionRenovable(rs.getDouble("produccion_renovable"));
-                    porcentaje.setConsumoTotal(rs.getDouble("consumo_total"));
-                    porcentaje.setPorcentajeRenovable(rs.getDouble("porcentaje_renovable"));
-                    porcentajeList.add(porcentaje);
-                }
-
-                rs.close();
-                ps.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            conexion.cerrarConexion(conn);
-        }
-
-        return porcentajeList;
-    }
-     */
     public List<EnergiaEolica> obtenerTop10PaisesEolica(int anio) {
         List<EnergiaEolica> energiaEolicaList = new ArrayList<>();
         Connection conn = null;
@@ -205,10 +138,7 @@ public class EnergiaRenovableRepository {
             conn = conexion.conectar();
             if (conn != null) {
 
-                String sql = "SELECT region, SUM(produccion) AS total_produccion "
-                        + "FROM energia_eolica " + "WHERE anio = ? "
-                        + "GROUP BY region " + "ORDER BY total_produccion DESC "
-                        + "LIMIT 10";
+                String sql = SqlQueries.OBTENER_TOP_10_PAISES_EOLICA;
 
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setInt(1, anio);
@@ -243,9 +173,7 @@ public class EnergiaRenovableRepository {
         try {
             conn = conexion.conectar();
             if (conn != null) {
-                String sql = "SELECT c.cantidad_consumida, e.nombre_fuente AS fuente_energia "
-                        + "FROM consumo c "
-                        + "JOIN energia_Renovable e ON c.energia_renovable_id = e.energia_renovable_id";
+                String sql = SqlQueries.OBTENER_PARTICIPACION_CONSUMO;
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
